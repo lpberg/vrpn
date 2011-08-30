@@ -181,7 +181,8 @@ void vrpn_Generic_Server_Object::closeDevices (void)
 }
 
 template<typename T>
-inline int vrpn_Generic_Server_Object::templated_setup_device_name_only(char * &pch, char * line, FILE *) {
+inline int vrpn_Generic_Server_Object::templated_setup_device_name_only (char * &pch, char * line, FILE *)
+{
   char s2 [LINESIZE];
 
   next();
@@ -189,18 +190,19 @@ inline int vrpn_Generic_Server_Object::templated_setup_device_name_only(char * &
     fprintf (stderr, "Bad line: %s\n", line);
     return -1;
   }
-  T * device = new T(s2, connection);
+  T * device = new T (s2, connection);
   if (device == NULL) {
     fprintf (stderr, "Can't create new device from line %s\n", line);
     return -1;
   }
-  _devices.add(device);
+  _devices.add (device);
 
   return 0;  // successful completion
 }
 
 template<typename T>
-inline int vrpn_Generic_Server_Object::templated_setup_HID_device_name_only(char * &pch, char * line, FILE *) {
+inline int vrpn_Generic_Server_Object::templated_setup_HID_device_name_only (char * &pch, char * line, FILE *)
+{
   char s2 [LINESIZE];
 
   next();
@@ -209,12 +211,12 @@ inline int vrpn_Generic_Server_Object::templated_setup_HID_device_name_only(char
     return -1;
   }
 #ifdef VRPN_USE_HID
-  T * device = new T(s2, connection);
+  T * device = new T (s2, connection);
   if (device == NULL) {
     fprintf (stderr, "Can't create new device from line %s\n", line);
     return -1;
   }
-  _devices.add(device);
+  _devices.add (device);
 
   return 0;  // successful completion
 #else
@@ -262,12 +264,12 @@ int vrpn_Generic_Server_Object::setup_raw_SGIBox (char * & pch, char * line, FIL
     // and set the state of that toggle
     // to 'off'
     device->set_toggle (tbutton,
-                                            vrpn_BUTTON_TOGGLE_OFF);
+                        vrpn_BUTTON_TOGGLE_OFF);
     //vrpnButton class will make sure I don't set
     //an invalid button number
     printf ("\tButton %d is toggle\n", tbutton);
   }
-  _devices.add(device);
+  _devices.add (device);
   return 0;  // successful completion
 }
 
@@ -333,11 +335,11 @@ int vrpn_Generic_Server_Object::setup_Timecode_Generator (char * & pch, char * l
     printf ("Opening vrpn_Timecode_Generator on host %s\n", s2);
   }
   vrpn_Timecode_Generator * device = new vrpn_Timecode_Generator (s2, connection);
-  if ( device == NULL) {
+  if (device == NULL) {
     fprintf (stderr, "Can't create new vrpn_Timecode_Generator\n");
     return -1;
   }
-  _devices.add(device);
+  _devices.add (device);
   return 0; // successful completion
 #else
   fprintf (stderr, "vrpn_server: Can't open Timecode Generator: INCLUDE_TIMECODE_GENERATOR not defined in vrpn_Configure.h!\n");
@@ -394,7 +396,7 @@ int vrpn_Generic_Server_Object::setup_Phantom (char * &pch, char *line, FILE * c
     fprintf (stderr, "Can't create new vrpn_Phantom\n");
     return -1;
   }
-  _devices.add(device);
+  _devices.add (device);
 
   return 0;
 #else
