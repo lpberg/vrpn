@@ -83,14 +83,6 @@ void vrpn_Generic_Server_Object::closeDevices (void)
     }
     delete dials[i];
   }
-#ifdef VRPN_INCLUDE_TIMECODE_SERVER
-  for (i = 0; i < num_timecode_generators; i++) {
-    if (verbose) {
-      fprintf (stderr, "\nClosing timecode_generator %d ...", i);
-    }
-    delete timecode_generators[i];
-  }
-#endif
   for (i = 0; i < num_tng3s; i++) {
     if (verbose) {
       fprintf (stderr, "\nClosing tng3 %d ...", i);
@@ -292,22 +284,17 @@ int vrpn_Generic_Server_Object::setup_Timecode_Generator (char * & pch, char * l
     return -1;
   }
 
-  // Make sure there's room for a new generator
-  if (num_generators >= VRPN_GSO_MAX_TIMECODE_GENERATORS) {
-    fprintf (stderr, "Too many generators in config file");
-    return -1;
-  }
 
   // open the timecode generator
   if (verbose) {
     printf ("Opening vrpn_Timecode_Generator on host %s\n", s2);
   }
-  if ( (timecode_generators[num_generators] =	new vrpn_Timecode_Generator (s2, connection)) == NULL) {
+  vrpn_Timecode_Generator * device = new vrpn_Timecode_Generator (s2, connection);
+  if ( device == NULL) {
     fprintf (stderr, "Can't create new vrpn_Timecode_Generator\n");
     return -1;
-  } else {
-    num_generators++;
   }
+  _devices.add(device);
   return 0; // successful completion
 #else
   fprintf (stderr, "vrpn_server: Can't open Timecode Generator: INCLUDE_TIMECODE_GENERATOR not defined in vrpn_Configure.h!\n");
@@ -4583,7 +4570,6 @@ vrpn_Generic_Server_Object::vrpn_Generic_Server_Object (vrpn_Connection *connect
   num_spaceballs (0),
   num_iboxes (0),
   num_dials (0),
-  num_generators (0),
   num_tng3s (0),
   num_DirectXJoys (0),
   num_RumblePads (0),
@@ -4946,11 +4932,6 @@ void  vrpn_Generic_Server_Object::mainloop (void)
 #ifdef SGI_BDBOX
   if (vrpn_special_sgibox) {
     vrpn_special_sgibox->mainloop();
-  }
-#endif
-#ifdef VRPN_INCLUDE_TIMECODE_SERVER
-  for (i = 0; i < num_generators; i++) {
-    timecode_generators[i]->mainloop();
   }
 #endif
   // Let all the TNG3 do their thing

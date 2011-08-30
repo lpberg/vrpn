@@ -117,9 +117,6 @@ const int VRPN_GSO_MAX_SPACEBALLS =           8;
 const int VRPN_GSO_MAX_IBOXES =               8;
 const int VRPN_GSO_MAX_DIALS =                8;
 const int VRPN_GSO_MAX_NDI_POLARIS_RIGIDBODIES = 20; //FIXME find out from the NDI specs if there is a maximum;
-#ifdef VRPN_INCLUDE_TIMECODE_SERVER
-const int VRPN_GSO_MAX_TIMECODE_GENERATORS =  8;
-#endif
 const int VRPN_GSO_MAX_TNG3S =	              8;
 #ifdef	VRPN_USE_DIRECTINPUT
 const int VRPN_GSO_MAX_DIRECTXJOYS =           8;
@@ -181,9 +178,6 @@ class vrpn_Generic_Server_Object
     int             num_iboxes;
     vrpn_Dial	* dials [VRPN_GSO_MAX_DIALS];
     int		num_dials;
-#ifdef VRPN_INCLUDE_TIMECODE_SERVER
-    vrpn_Timecode_Generator * timecode_generators[VRPN_GSO_MAX_TIMECODE_GENERATORS];
-#endif
     int		num_generators;
     vrpn_Tng3       *tng3s[VRPN_GSO_MAX_TNG3S];
     int             num_tng3s;
