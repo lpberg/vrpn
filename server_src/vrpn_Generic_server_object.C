@@ -4062,22 +4062,15 @@ int vrpn_Generic_Server_Object::setup_3DConnexion_Navigator (char * & pch, char 
   }
 
   // Open the 3DConnexion_Navigator
-  // Make sure there's room for a new button
-  if (num_buttons >= VRPN_GSO_MAX_BUTTONS) {
-    fprintf (stderr, "vrpn_3DConnexion_Navigator: Too many buttons in config file");
-    return -1;
-  }
-
-  // Open the button
   if (verbose) {
     printf ("Opening vrpn_3DConnexion_Navigator %s\n", s2);
   }
-  if ( (buttons[num_buttons] = new vrpn_3DConnexion_Navigator (s2, connection)) == NULL) {
+  vrpn_3DConnexion_Navigator * device = new vrpn_3DConnexion_Navigator (s2, connection);
+  if (device == NULL) {
     fprintf (stderr, "Can't create new vrpn_3DConnexion_Navigator\n");
     return -1;
-  } else {
-    num_buttons++;
   }
+  _devices.add(device);
 
   return 0;  // successful completion
 }
@@ -4155,23 +4148,15 @@ int vrpn_Generic_Server_Object::setup_3DConnexion_SpaceExplorer (char * & pch, c
   }
 
   // Open the 3DConnexion_Traveler
-  // Make sure there's room for a new button
-  if (num_buttons >= VRPN_GSO_MAX_BUTTONS) {
-    fprintf (stderr, "vrpn_3DConnexion_SpaceExplorer: Too many buttons in config file");
-    return -1;
-  }
-
-  // Open the button
   if (verbose) {
     printf ("Opening vrpn_3DConnexion_SpaceExplorer %s\n", s2);
   }
-  if ( (buttons[num_buttons] = new vrpn_3DConnexion_SpaceExplorer (s2, connection)) == NULL) {
+  vrpn_3DConnexion_SpaceExplorer * device = new vrpn_3DConnexion_SpaceExplorer (s2, connection);
+  if (device == NULL) {
     fprintf (stderr, "Can't create new vrpn_3DConnexion_SpaceExplorer\n");
     return -1;
-  } else {
-    num_buttons++;
   }
-
+  _devices.add(device);
   return 0;  // successful completion
 }
 
@@ -4186,22 +4171,16 @@ int vrpn_Generic_Server_Object::setup_3DConnexion_SpaceBall5000 (char * & pch, c
   }
 
   // Open the 3DConnexion_SpaceBall5000
-  // Make sure there's room for a new button
-  if (num_buttons >= VRPN_GSO_MAX_BUTTONS) {
-    fprintf (stderr, "vrpn_3DConnexion_SpaceBall5000: Too many buttons in config file");
-    return -1;
-  }
-
-  // Open the button
   if (verbose) {
     printf ("Opening vrpn_3DConnexion_SpaceBall5000 %s\n", s2);
   }
-  if ( (buttons[num_buttons] = new vrpn_3DConnexion_SpaceBall5000 (s2, connection)) == NULL) {
+  vrpn_3DConnexion_SpaceBall5000 * device = new vrpn_3DConnexion_SpaceBall5000 (s2, connection);
+  if (device == NULL) {
     fprintf (stderr, "Can't create new vrpn_3DConnexion_SpaceBall5000\n");
     return -1;
-  } else {
-    num_buttons++;
   }
+
+  _devices.add(device);
 
   return 0;  // successful completion
 }
