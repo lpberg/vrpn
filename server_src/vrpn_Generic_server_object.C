@@ -41,12 +41,6 @@ void vrpn_Generic_Server_Object::closeDevices (void)
     }
     delete trackers[i];
   }
-#ifdef VRPN_USE_PHANTOM_SERVER
-  for (i = 0; i < num_phantoms; i++) {
-    fprintf (stderr, "\nClosing Phantom %d ...", i);
-    delete phantoms[i];
-  }
-#endif
   for (i = 0; i < num_sounds; i++) {
     if (verbose) {
       fprintf (stderr, "\nClosing sound %d ...", i);
@@ -346,11 +340,6 @@ int vrpn_Generic_Server_Object::setup_Phantom (char * &pch, char *line, FILE * c
     return -1;
   }
 
-  if (num_phantoms >= VRPN_GSO_MAX_PHANTOMS) {
-    fprintf (stderr, "Too many Phantoms in config file");
-    return -1;
-  }
-
   // Jean SIMARD <jean.simard@limsi.fr>
   // Put a more verbose version when a PHANToM connection is opened.
   if (verbose) {
@@ -370,13 +359,12 @@ int vrpn_Generic_Server_Object::setup_Phantom (char * &pch, char *line, FILE * c
 
   // Jean SIMARD <jean.simard@limsi.fr>
   // Modification of the call of the constructor
-  phantoms[num_phantoms] =  new vrpn_Phantom (s2, connection, f1, sconf);
-  if (phantoms[num_phantoms] == NULL) {
+  vrpn_Phantom * device = new vrpn_Phantom (s2, connection, f1, sconf);
+  if (device == NULL) {
     fprintf (stderr, "Can't create new vrpn_Phantom\n");
     return -1;
   }
-
-  num_phantoms++;
+  _devices.add(device);
 
   return 0;
 #else
@@ -4602,7 +4590,6 @@ vrpn_Generic_Server_Object::vrpn_Generic_Server_Object (vrpn_Connection *connect
   num_XInputPads (0),
   num_Win32Joys (0),
   num_GlobalHapticsOrbs (0),
-  num_phantoms (0),
   num_analogouts (0),
   num_DTracks (0),
   num_posers (0),
@@ -4964,12 +4951,6 @@ void  vrpn_Generic_Server_Object::mainloop (void)
 #ifdef VRPN_INCLUDE_TIMECODE_SERVER
   for (i = 0; i < num_generators; i++) {
     timecode_generators[i]->mainloop();
-  }
-#endif
-#ifdef VRPN_USE_PHANTOM_SERVER
-  // Let all the Phantoms do their thing
-  for (i = 0; i < num_phantoms; i++) {
-    phantoms[i]->mainloop();
   }
 #endif
   // Let all the TNG3 do their thing

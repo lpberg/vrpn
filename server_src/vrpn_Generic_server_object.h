@@ -128,9 +128,6 @@ const int VRPN_GSO_MAX_XINPUTPADS =           8;
 #endif
 const int VRPN_GSO_MAX_WIN32JOYS =            100;
 const int VRPN_GSO_MAX_GLOBALHAPTICSORBS =    8;
-#ifdef	VRPN_USE_PHANTOM_SERVER
-const int VRPN_GSO_MAX_PHANTOMS =             10;
-#endif
 const int VRPN_GSO_MAX_DTRACKS =              5;
 const int VRPN_GSO_MAX_POSER =	              8;
 const int VRPN_GSO_MAX_MOUSES =	              8;
@@ -204,9 +201,6 @@ class vrpn_Generic_Server_Object
     int		num_Win32Joys;
     vrpn_GlobalHapticsOrb *ghos[VRPN_GSO_MAX_GLOBALHAPTICSORBS];
     int		num_GlobalHapticsOrbs;
-#ifdef	VRPN_USE_PHANTOM_SERVER
-    vrpn_Phantom	*phantoms[VRPN_GSO_MAX_PHANTOMS];
-#endif
     int		num_phantoms;
     vrpn_Tracker_DTrack *DTracks[VRPN_GSO_MAX_DTRACKS];
     int num_DTracks;
