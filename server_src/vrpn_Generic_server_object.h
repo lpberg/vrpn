@@ -110,7 +110,6 @@ const int VRPN_GSO_MAX_BUTTONS =              100;
 const int VRPN_GSO_MAX_SOUNDS =               2;
 const int VRPN_GSO_MAX_ANALOG =               8;
 const int VRPN_GSO_MAX_ANALOGOUT =            8;
-const int VRPN_GSO_MAX_SGIBOX =               2;
 const int VRPN_GSO_MAX_CEREALS =              8;
 const int VRPN_GSO_MAX_MAGELLANS =            8;
 const int VRPN_GSO_MAX_MAGELLANSUSB =         8;
@@ -175,8 +174,6 @@ class vrpn_Generic_Server_Object
     int		num_sounds;
     vrpn_Analog	* analogs [VRPN_GSO_MAX_ANALOG];
     int		num_analogs;
-    vrpn_raw_SGIBox	* sgiboxes [VRPN_GSO_MAX_SGIBOX];
-    int		num_sgiboxes;
     vrpn_CerealBox	* cereals [VRPN_GSO_MAX_CEREALS];
     int		num_cereals;
     vrpn_Magellan	* magellans [VRPN_GSO_MAX_MAGELLANS];

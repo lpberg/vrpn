@@ -59,12 +59,6 @@ void vrpn_Generic_Server_Object::closeDevices (void)
     }
     delete analogs[i];
   }
-  for (i = 0; i < num_sgiboxes; i++) {
-    if (verbose) {
-      fprintf (stderr, "\nClosing sgibox %d ...", i);
-    }
-    delete sgiboxes[i];
-  }
   for (i = 0; i < num_cereals; i++) {
     if (verbose) {
       fprintf (stderr, "\nClosing cereal %d ...", i);
@@ -218,22 +212,14 @@ int vrpn_Generic_Server_Object::setup_raw_SGIBox (char * & pch, char * line, FIL
     return -1;
   }
 
-  // Make sure there's room for a new raw SGIBox
-  if (num_sgiboxes >= VRPN_GSO_MAX_SGIBOX) {
-    fprintf (stderr, "Too many raw SGI Boxes in config file");
-    return -1;
-  }
-
   // Open the raw SGI box
   if (verbose) {
     printf ("Opening vrpn_raw_SGIBox %s on serial port %s\n", s2, s3);
   }
-  if ( (sgiboxes[num_sgiboxes] =
-          new vrpn_raw_SGIBox (s2, connection, s3)) == NULL) {
+  vrpn_raw_SGIBox * device = new vrpn_raw_SGIBox (s2, connection, s3);
+  if (device == NULL) {
     fprintf (stderr, "Can't create new vrpn_raw_SGIBox\n");
     return -1;
-  } else {
-    num_sgiboxes++;
   }
 
   //setting listed buttons to toggles instead of default momentary
@@ -246,13 +232,13 @@ int vrpn_Generic_Server_Object::setup_raw_SGIBox (char * & pch, char * line, FIL
     // set the button to be a toggle,
     // and set the state of that toggle
     // to 'off'
-    sgiboxes[num_sgiboxes - 1]->set_toggle (tbutton,
+    device->set_toggle (tbutton,
                                             vrpn_BUTTON_TOGGLE_OFF);
     //vrpnButton class will make sure I don't set
     //an invalid button number
     printf ("\tButton %d is toggle\n", tbutton);
   }
-
+  _devices.add(device);
   return 0;  // successful completion
 }
 
@@ -4604,7 +4590,6 @@ vrpn_Generic_Server_Object::vrpn_Generic_Server_Object (vrpn_Connection *connect
   num_buttons (0),
   num_sounds (0),
   num_analogs (0),
-  num_sgiboxes (0),
   num_cereals (0),
   num_magellans (0),
   num_spaceballs (0),
@@ -4971,10 +4956,6 @@ void  vrpn_Generic_Server_Object::mainloop (void)
     iboxes[i]->mainloop();
   }
 
-  // Let all of the SGI button/knob boxes do their thing
-  for (i = 0; i < num_sgiboxes; i++) {
-    sgiboxes[i]->mainloop();
-  }
 #ifdef SGI_BDBOX
   if (vrpn_special_sgibox) {
     vrpn_special_sgibox->mainloop();
