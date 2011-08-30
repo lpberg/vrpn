@@ -315,6 +315,12 @@ class vrpn_Generic_Server_Object
     int setup_Analog_5dtUSB_Glove14Right (char * &pch, char * line, FILE * config_file);
     int setup_Tracker_RazerHydra(char * &pch, char * line, FILE * config_file);
 
+    template<typename T>
+    int templated_setup_device_name_only(char * &pch, char * line, FILE *);
+
+    template<typename T>
+    int templated_setup_HID_device_name_only(char * &pch, char * line, FILE *);
+
     // BUW additions
     int setup_Atmel (char* &pch, char *line, FILE *config_file);
     int setup_Event_Mouse (char* &pch, char *line, FILE *config_file);
