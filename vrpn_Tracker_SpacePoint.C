@@ -14,11 +14,14 @@
 
 const unsigned SPACEPOINT_VENDOR = 0x20ff;
 const unsigned SPACEPOINT_PRODUCT = 0x0100;
+const unsigned SPACEPOINT_INTERFACE = 1;
 
 #ifdef VRPN_USE_HID
 vrpn_Tracker_SpacePoint::vrpn_Tracker_SpacePoint(const char * name, vrpn_Connection * trackercon) :
                     vrpn_Tracker(name, trackercon), vrpn_Button(name, trackercon),
-                    vrpn_HidInterface(new vrpn_HidProductAcceptor(SPACEPOINT_VENDOR, SPACEPOINT_PRODUCT))
+                    vrpn_HidInterface(new vrpn_HidBooleanAndAcceptor(
+	                        new vrpn_HidInterfaceNumberAcceptor(SPACEPOINT_INTERFACE),
+	                        new vrpn_HidProductAcceptor(SPACEPOINT_VENDOR, SPACEPOINT_PRODUCT)))
 {
     _name = name;
     _con = trackercon;
@@ -31,13 +34,6 @@ vrpn_Tracker_SpacePoint::vrpn_Tracker_SpacePoint(const char * name, vrpn_Connect
 
 void vrpn_Tracker_SpacePoint::on_data_received(size_t bytes, vrpn_uint8 *buffer)
 {
-    /*
-     * Horrible kludge - as we do not have a way to select the correct endpoint, we have to use a hack
-     * to identify the correct device. In Windows the SpacePoint appears as 2 devices with same VID/PID, one for each endpoint
-     * The correct device sends a report 15 bytes long. If we get a report of a different length, we try to open
-     * the other device instead.
-     */
-
     // test from the app note
     // the quaternion should be: 0.2474, -0.1697, -0.1713, 0.9384
     /*
@@ -47,26 +43,19 @@ void vrpn_Tracker_SpacePoint::on_data_received(size_t bytes, vrpn_uint8 *buffer)
     memcpy(buffer, test_dta, 15 * sizeof(vrpn_uint8));
     */
 
-    if (bytes == 15)
+    if (bytes != 15)
     {
-        vrpn_uint8 * bufptr = buffer + 6;
-
-        for (int i = 0; i < 4; i++)
-        {
-            d_quat[i] = (vrpn_unbuffer_from_little_endian<vrpn_uint16>(bufptr) - 32768) / 32768.0;
-        }
-
-        buttons[0] = buffer[14] & 0x1;
-        buttons[1] = buffer[14] & 0x2;
+		fprintf(stderr, "SpacePoint tracker: unexpected report size: %d bytes.\n", static_cast<int>(bytes));
     }
 
-    else
-    {
-        // try the other iface
-        // as we are keeping the first one open,
-        // it will not enumerate and we get the next one. Horrible kludge :(
-        reconnect();
-    }
+	for (int i = 0; i < 4; i++)
+	{
+		unsigned short value = buffer[2*i + 6] + (buffer[2*i + 7] << 8);
+		d_quat[i] = (value - 32768) / 32768.0;
+	}
+
+	buttons[0] = buffer[14] & 0x1;
+	buttons[1] = buffer[14] & 0x2;
 }
 
 void vrpn_Tracker_SpacePoint::mainloop()
