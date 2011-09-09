@@ -39,15 +39,6 @@ else()
 endif()
 
 ###
-if (WIN32)
-	if (NOT ONCE_SET_CMAKE_INSTALL_PREFIX)
-		set(ONCE_SET_CMAKE_INSTALL_PREFIX true CACHE BOOL
-			"Have we set the install prefix yet?" FORCE)
-		set(CMAKE_INSTALL_PREFIX C:/usr/local CACHE PATH
-		    "Install path prefix, prepended onto install directories"
-		    FORCE)
-	endif (NOT ONCE_SET_CMAKE_INSTALL_PREFIX)
-endif (WIN32)
 # On Windows 7, it does not work to install in the default location,
 # which is the Program Files directory, because you have to not only have
 # file permission to write there but also "run as administrator."  This
@@ -66,6 +57,17 @@ endif (WIN32)
 # the change in the GUI, and also letting the user change the value in
 # the GUI if they don't like what we did.  If I knew how to do this only
 # happen on Windows 7, I'd make the if(WIN32) more specific.
+if (WIN32 AND NOT SUBPROJECT)
+	if (NOT ONCE_SET_CMAKE_INSTALL_PREFIX)
+		set(ONCE_SET_CMAKE_INSTALL_PREFIX true CACHE BOOL
+			"Have we set the install prefix yet?" FORCE)
+		set(CMAKE_INSTALL_PREFIX C:/usr/local CACHE PATH
+		    "Install path prefix, prepended onto install directories"
+		    FORCE)
+	endif (NOT ONCE_SET_CMAKE_INSTALL_PREFIX)
+endif ()
+
+
 ###
 # Basic packaging options and versioning
 
