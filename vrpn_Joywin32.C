@@ -8,6 +8,7 @@
 #include <windows.h>
 #include <stdio.h>
 #include <cmath>
+#include <algorithm>
 // vrpn_Joywin32.C
 //	This is a driver for joysticks being used through the
 // Win32 basic interface.
