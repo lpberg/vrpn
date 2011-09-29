@@ -39,10 +39,8 @@
 #define VRPN_BUTTON_NI_DIO24_H
 
 #include "vrpn_Button.h"
-#ifdef VRPN_USE_USDIGITAL
-#if defined(_WIN32) || defined(WIN32)
+#ifdef VRPN_USE_NATIONAL_INSTRUMENTS_MX
 #include <NIDAQmx.h>
-#endif // def(_WIN32) || def(WIN32)
 #endif
 
 class VRPN_API vrpn_Button_NI_DIO24 : public vrpn_Button_Filter {
@@ -63,10 +61,10 @@ class VRPN_API vrpn_Button_NI_DIO24 : public vrpn_Button_Filter {
     virtual void mainloop () ;
 
   private:
-    //  Addresses of the devices
-#ifdef VRPN_USE_USDIGITAL
+  //  Addresses of the devices
+#ifdef VRPN_USE_NATIONAL_INSTRUMENTS_MX
     TaskHandle    _taskHandle ;
-#endif // def(_WIN32) || def(WIN32)
+#endif
 
     /// Sets the number of channels and ports, clamped to maximums if needed.
     /// This should be used before mainloop is ever called.
@@ -74,7 +72,7 @@ class VRPN_API vrpn_Button_NI_DIO24 : public vrpn_Button_Filter {
 
     //  THis handles error reporting, and halts the
     //  program if the error is irrecoverable
-#ifdef VRPN_USE_USDIGITAL
+#ifdef VRPN_USE_NATIONAL_INSTRUMENTS_MX
     void reportError(int32 errnumber, vrpn_bool exitProgram) ;
 #endif // def(_WIN32) || def(WIN32)
 };
