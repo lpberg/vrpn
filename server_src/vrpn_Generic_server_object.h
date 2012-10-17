@@ -107,9 +107,7 @@
 // Polhemus additions
 #include "vrpn_Tracker_PDI.h"
 
-#ifdef VRPN_USE_JSONNET
 #include "vrpn_Tracker_JsonNet.h"
-#endif
 
 #ifdef VRPN_INCLUDE_TIMECODE_SERVER
 #include "timecode_generator_server\vrpn_timecode_generator.h"
@@ -204,7 +202,7 @@ class vrpn_Generic_Server_Object
     int setup_Button_USB (char * & pch, char * line, FILE * /*config_file*/);
     int setup_Analog_USDigital_A2 (char * & pch, char * line, FILE * /*config_file*/) ;
     int setup_Button_NI_DIO24 (char * & pch, char * line, FILE * /*config_file*/) ;
-    int setup_Tracker_PhaseSpace (char * & pch, char * line, FILE * /*config_file*/) ;
+    int setup_Tracker_PhaseSpace (char * & pch, char * line, FILE * config_file) ;
     int setup_Tracker_NDI_Polaris (char * & pch, char * line, FILE * config_file) ;
     int setup_Logger (char * & pch, char * line, FILE * /*config_file*/) ;
     int setup_ImageStream (char * & pch, char * line, FILE * /*config_file*/) ;
@@ -238,18 +236,16 @@ class vrpn_Generic_Server_Object
     int setup_Tracker_ViewPoint (char * &pch, char * line, FILE * /*config_file*/);
 
     // BUW additions
-    int setup_Atmel (char* &pch, char *line, FILE *config_file);
-    int setup_Event_Mouse (char* &pch, char *line, FILE *config_file);
+    int setup_Atmel (char * &pch, char * line, FILE * /*config_file*/);
+    int setup_Event_Mouse (char * &pch, char * line, FILE * /*config_file*/);
     int setup_inertiamouse (char * & pch, char * line, FILE * /*config_file*/);
 
     // Polhemus additions
-    int setup_Tracker_G4(char* &pch, char* line, FILE* config_file); 
-    int setup_Tracker_LibertyPDI(char* &pch, char* line, FILE* config_file); 
-    int setup_Tracker_FastrakPDI(char* &pch, char* line, FILE* config_file);
+    int setup_Tracker_G4(char * &pch, char * line, FILE * config_file); 
+    int setup_Tracker_LibertyPDI(char * &pch, char * line, FILE * config_file); 
+    int setup_Tracker_FastrakPDI(char * &pch, char * line, FILE * config_file);
 
-#ifdef VRPN_USE_JSONNET
-    int setup_Tracker_JsonNet (char* &pch, char* line, FILE* config_file);
-#endif
+    int setup_Tracker_JsonNet (char * &pch, char * line, FILE * /*config_file*/);
 
 };
 
