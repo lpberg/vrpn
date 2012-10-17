@@ -28,175 +28,6 @@ void vrpn_Generic_Server_Object::closeDevices (void)
 {
   _devices.clear();
 
-  int i;
-  for (i = 0; i < num_buttons; i++) {
-    if (verbose) {
-      fprintf (stderr, "\nClosing button %d ...", i);
-    }
-    delete buttons[i];
-  }
-  for (i = 0; i < num_trackers; i++) {
-    if (verbose) {
-      fprintf (stderr, "\nClosing tracker %d ...", i);
-    }
-    delete trackers[i];
-  }
-#ifdef VRPN_USE_PHANTOM_SERVER
-  for (i = 0; i < num_phantoms; i++) {
-    fprintf (stderr, "\nClosing Phantom %d ...", i);
-    delete phantoms[i];
-  }
-#endif
-  for (i = 0; i < num_sounds; i++) {
-    if (verbose) {
-      fprintf (stderr, "\nClosing sound %d ...", i);
-    }
-    delete sounds[i];
-  }
-  for (i = 0; i < num_analogs; i++) {
-    if (verbose) {
-      fprintf (stderr, "\nClosing analog %d ...", i);
-    }
-    delete analogs[i];
-  }
-  for (i = 0; i < num_sgiboxes; i++) {
-    if (verbose) {
-      fprintf (stderr, "\nClosing sgibox %d ...", i);
-    }
-    delete sgiboxes[i];
-  }
-  for (i = 0; i < num_cereals; i++) {
-    if (verbose) {
-      fprintf (stderr, "\nClosing cereal %d ...", i);
-    }
-    delete cereals[i];
-  }
-  for (i = 0; i < num_magellans; i++) {
-    if (verbose) {
-      fprintf (stderr, "\nClosing magellan %d ...", i);
-    }
-    delete magellans[i];
-  }
-  for (i = 0; i < num_spaceballs; i++) {
-    if (verbose) {
-      fprintf (stderr, "\nClosing spaceball %d ...", i);
-    }
-    delete spaceballs[i];
-  }
-  for (i = 0; i < num_iboxes; i++) {
-    if (verbose) {
-      fprintf (stderr, "\nClosing ibox %d ...", i);
-    }
-    delete iboxes[i];
-  }
-  for (i = 0; i < num_dials; i++) {
-    if (verbose) {
-      fprintf (stderr, "\nClosing dial %d ...", i);
-    }
-    delete dials[i];
-  }
-#ifdef VRPN_INCLUDE_TIMECODE_SERVER
-  for (i = 0; i < num_generators; i++) {
-    if (verbose) {
-      fprintf (stderr, "\nClosing timecode_generator %d ...", i);
-    }
-    delete timecode_generators[i];
-  }
-#endif
-  for (i = 0; i < num_tng3s; i++) {
-    if (verbose) {
-      fprintf (stderr, "\nClosing tng3 %d ...", i);
-    }
-    delete tng3s[i];
-  }
-#ifdef	VRPN_USE_DIRECTINPUT
-  for (i = 0; i < num_DirectXJoys; i++) {
-    if (verbose) {
-      fprintf (stderr, "\nClosing DirectXJoy %d ...", i);
-    }
-    delete DirectXJoys[i];
-  }
-  for (i = 0; i < num_RumblePads; i++) {
-    if (verbose) {
-      fprintf (stderr, "\nClosing RumblePad %d ...", i);
-    }
-    delete RumblePads[i];
-  }
-#endif
-#ifdef	_WIN32
-  for (i = 0; i < num_Win32Joys; i++) {
-    if (verbose) {
-      fprintf (stderr, "\nClosing win32joy %d ...", i);
-    }
-    delete win32joys[i];
-  }
-#endif
-  for (i = 0; i < num_GlobalHapticsOrbs; i++) {
-    if (verbose) {
-      fprintf (stderr, "\nClosing Global Haptics Orb %d ...", i);
-    }
-    delete ghos[i];
-  }
-#ifndef sgi
-  for (i = 0; i < num_DTracks; i++) {
-    if (verbose) {
-      fprintf (stderr, "\nClosing DTrack %d ...", i);
-    }
-    delete DTracks[i];
-  }
-#endif
-  for (i = 0; i < num_analogouts; i++) {
-    if (verbose) {
-      fprintf (stderr, "\nClosing analogout %d ...", i);
-    }
-    delete analogouts[i];
-  }
-  for (i = 0; i < num_posers; i++) {
-    if (verbose) {
-      fprintf (stderr, "\nClosing poser %d ...", i);
-    }
-    delete posers[i];
-  }
-  for (i = 0; i < num_Keyboards; i++) {
-    if (verbose) {
-      fprintf (stderr, "\nClosing Keyboard %d ...", i);
-    }
-    delete Keyboards[i];
-  }
-  for (i = 0; i < num_loggers; i++) {
-    if (verbose) {
-      fprintf (stderr, "\nClosing logger %d ...", i);
-    }
-    delete loggers[i];
-  }
-  for (i = 0; i < num_imagestreams; i++) {
-    if (verbose) {
-      fprintf (stderr, "\nClosing imagestream %d ...", i);
-    }
-    delete imagestreams[i];
-  }
-  for (i = 0; i < num_inertiamouses; i++) {
-    if (verbose) {
-      fprintf (stderr, "\nClosing inertiamouse %d ...", i);
-    }
-    delete inertiamouses[i];
-  }
-#ifdef	VRPN_USE_WIIUSE
-  for (i = 0; i < num_wiimotes; i++) {
-    if (verbose) {
-      fprintf (stderr, "\nClosing wiimote %d ...", i);
-    }
-    delete wiimotes[i];
-  }
-#endif
-#ifdef	VRPN_USE_FREESPACE
-  for (i = 0; i < num_freespaces; i++) {
-    if (verbose) {
-      fprintf (stderr, "\nClosing freespace %d ...", i);
-    }
-    delete freespaces[i];
-  }
-#endif
   if (verbose) {
     fprintf (stderr, "\nAll devices closed...\n");
   }
@@ -220,23 +51,11 @@ int vrpn_Generic_Server_Object::setup_raw_SGIBox (char * & pch, char * line, FIL
     return -1;
   }
 
-  // Make sure there's room for a new raw SGIBox
-  if (num_sgiboxes >= VRPN_GSO_MAX_SGIBOX) {
-    fprintf (stderr, "Too many raw SGI Boxes in config file");
-    return -1;
-  }
-
   // Open the raw SGI box
   if (verbose) {
     printf ("Opening vrpn_raw_SGIBox %s on serial port %s\n", s2, s3);
   }
-  if ( (sgiboxes[num_sgiboxes] =
-          new vrpn_raw_SGIBox (s2, connection, s3)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_raw_SGIBox\n");
-    return -1;
-  } else {
-    num_sgiboxes++;
-  }
+  vrpn_raw_SGIBox * device = _devices.add(new vrpn_raw_SGIBox (s2, connection, s3));
 
   //setting listed buttons to toggles instead of default momentary
   //pch=s3;
@@ -248,8 +67,8 @@ int vrpn_Generic_Server_Object::setup_raw_SGIBox (char * & pch, char * line, FIL
     // set the button to be a toggle,
     // and set the state of that toggle
     // to 'off'
-    sgiboxes[num_sgiboxes - 1]->set_toggle (tbutton,
-                                            vrpn_BUTTON_TOGGLE_OFF);
+    device->set_toggle (tbutton,
+                        vrpn_BUTTON_TOGGLE_OFF);
     //vrpnButton class will make sure I don't set
     //an invalid button number
     printf ("\tButton %d is toggle\n", tbutton);
@@ -276,11 +95,7 @@ int vrpn_Generic_Server_Object::setup_SGIBox (char * & pch, char * line, FILE * 
   if (verbose) {
     printf ("Opening vrpn_SGIBox on host %s\n", s2);
   }
-  if ( (vrpn_special_sgibox =
-          new vrpn_SGIBox (s2, connection)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_SGIBox\n");
-    return -1;
-  }
+  vrpn_special_sgibox = _devices.add(new vrpn_SGIBox (s2, connection));
 
   //setting listed buttons to toggles instead of default momentary
   pch += strlen (s2) + 1;
@@ -314,22 +129,11 @@ int vrpn_Generic_Server_Object::setup_Timecode_Generator (char * & pch, char * l
     return -1;
   }
 
-  // Make sure there's room for a new generator
-  if (num_generators >= VRPN_GSO_MAX_TIMECODE_GENERATORS) {
-    fprintf (stderr, "Too many generators in config file");
-    return -1;
-  }
-
   // open the timecode generator
   if (verbose) {
     printf ("Opening vrpn_Timecode_Generator on host %s\n", s2);
   }
-  if ( (timecode_generators[num_generators] =	new vrpn_Timecode_Generator (s2, connection)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Timecode_Generator\n");
-    return -1;
-  } else {
-    num_generators++;
-  }
+  _devices.add(new vrpn_Timecode_Generator (s2, connection));
   return 0; // successful completion
 #else
   fprintf (stderr, "vrpn_server: Can't open Timecode Generator: INCLUDE_TIMECODE_GENERATOR not defined in vrpn_Configure.h!\n");
@@ -362,11 +166,6 @@ int vrpn_Generic_Server_Object::setup_Phantom (char * &pch, char *line, FILE * c
     return -1;
   }
 
-  if (num_phantoms >= VRPN_GSO_MAX_PHANTOMS) {
-    fprintf (stderr, "Too many Phantoms in config file");
-    return -1;
-  }
-
   // Jean SIMARD <jean.simard@limsi.fr>
   // Put a more verbose version when a PHANToM connection is opened.
   if (verbose) {
@@ -386,13 +185,7 @@ int vrpn_Generic_Server_Object::setup_Phantom (char * &pch, char *line, FILE * c
 
   // Jean SIMARD <jean.simard@limsi.fr>
   // Modification of the call of the constructor
-  phantoms[num_phantoms] =  new vrpn_Phantom (s2, connection, f1, sconf);
-  if (phantoms[num_phantoms] == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Phantom\n");
-    return -1;
-  }
-
-  num_phantoms++;
+  _devices.add(new vrpn_Phantom (s2, connection, f1, sconf));
 
   return 0;
 #else
@@ -414,11 +207,6 @@ int vrpn_Generic_Server_Object::setup_JoyFly (char * & pch, char * line, FILE * 
 #ifdef  _WIN32
   fprintf (stderr, "JoyFly tracker not yet defined for NT\n");
 #else
-  // Make sure there's room for a new tracker
-  if (num_trackers >= VRPN_GSO_MAX_TRACKERS) {
-    fprintf (stderr, "Too many trackers in config file");
-    return -1;
-  }
 
   // Open the tracker
   if (verbose)
@@ -428,20 +216,13 @@ int vrpn_Generic_Server_Object::setup_JoyFly (char * & pch, char * line, FILE * 
 
   // HACK HACK HACK
   // Check for illegal character leading '*' to see if it's local
-
-  if (s3[0] == '*')
-    trackers[num_trackers] =
+  if (s3[0] == '*') {
+    _devices.add(
       new vrpn_Tracker_JoyFly (s2, connection, &s3[1], s4,
-                               connection);
-  else
-    trackers[num_trackers] =
-      new vrpn_Tracker_JoyFly (s2, connection, s3, s4);
-
-  if (!trackers[num_trackers]) {
-    fprintf (stderr, "Can't create new vrpn_Tracker_JoyFly\n");
-    return -1;
+                               connection));
   } else {
-    num_trackers++;
+    _devices.add(
+      new vrpn_Tracker_JoyFly (s2, connection, s3, s4));
   }
 #endif
 
@@ -505,12 +286,6 @@ int vrpn_Generic_Server_Object::setup_Tracker_AnalogFly (char * & pch, char * li
   } else {
     fprintf (stderr, "vrpn_Tracker_AnalogFly: Expected 'absolute' or 'differential'\n");
     fprintf (stderr, "   but got '%s'\n", s3);
-    return -1;
-  }
-
-  // Make sure there's room for a new tracker
-  if (num_trackers >= VRPN_GSO_MAX_TRACKERS) {
-    fprintf (stderr, "Too many trackers in config file");
     return -1;
   }
 
@@ -607,14 +382,7 @@ int vrpn_Generic_Server_Object::setup_Tracker_AnalogFly (char * & pch, char * li
     }
   }
 
-  trackers[num_trackers] = new vrpn_Tracker_AnalogFly (s2, connection, &p, f1, absolute, false, worldFrame);
-
-  if (!trackers[num_trackers]) {
-    fprintf (stderr, "Can't create new vrpn_Tracker_AnalogFly\n");
-    return -1;
-  } else {
-    num_trackers++;
-  }
+  _devices.add(new vrpn_Tracker_AnalogFly (s2, connection, &p, f1, absolute, false, worldFrame));
 
   return 0;
 }
@@ -628,12 +396,6 @@ int vrpn_Generic_Server_Object::setup_Tracker_ButtonFly (char * & pch, char * li
   next();
   if (sscanf (pch, "%511s%g", s2, &f1) != 2) {
     fprintf (stderr, "Bad vrpn_Tracker_ButtonFly line: %s\n", line);
-    return -1;
-  }
-
-  // Make sure there's room for a new tracker
-  if (num_trackers >= VRPN_GSO_MAX_TRACKERS) {
-    fprintf (stderr, "Too many trackers in config file");
     return -1;
   }
 
@@ -751,15 +513,7 @@ int vrpn_Generic_Server_Object::setup_Tracker_ButtonFly (char * & pch, char * li
     }
   }
 
-  trackers[num_trackers] = new
-  vrpn_Tracker_ButtonFly (s2, connection, &p, f1);
-
-  if (!trackers[num_trackers]) {
-    fprintf (stderr, "Can't create new vrpn_Tracker_ButtonFly\n");
-    return -1;
-  } else {
-    num_trackers++;
-  }
+  _devices.add(new vrpn_Tracker_ButtonFly (s2, connection, &p, f1));
 
   return 0;
 }
@@ -777,24 +531,12 @@ int vrpn_Generic_Server_Object::setup_Joystick (char * & pch, char * line, FILE 
     return -1;
   }
 
-  // Make sure there's room for a new joystick server
-  if (num_analogs >= VRPN_GSO_MAX_ANALOG) {
-    fprintf (stderr, "Too many analog devices in config file");
-    return -1;
-  }
-
   // Open the joystick server
   if (verbose)
     printf ("Opening vrpn_Joystick:  "
             "%s on port %s baud %d, min update rate = %.2f\n",
             s2, s3, i1, fhz);
-  if ( (analogs[num_analogs] =
-          new vrpn_Joystick (s2, connection, s3, i1, fhz)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Joystick\n");
-    return -1;
-  } else {
-    num_analogs++;
-  }
+  _devices.add(new vrpn_Joystick (s2, connection, s3, i1, fhz));
 
   return 0;
 }
@@ -813,23 +555,11 @@ int vrpn_Generic_Server_Object::setup_Example_Button (char * & pch, char * line,
     return -1;
   }
 
-  // Make sure there's room for a new dial
-  if (num_buttons >= VRPN_GSO_MAX_BUTTONS) {
-    fprintf (stderr, "Too many buttons in config file");
-    return -1;
-  }
-
   // Open the button
   if (verbose) printf (
       "Opening vrpn_Button_Example: %s with %d sensors, toggle rate %f\n",
       s2, i1, f1);
-  if ( (buttons[num_buttons] =
-          new vrpn_Button_Example_Server (s2, connection, i1, f1)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Button_Example\n");
-    return -1;
-  } else {
-    num_buttons++;
-  }
+  _devices.add(new vrpn_Button_Example_Server (s2, connection, i1, f1));
 
   return 0;
 }
@@ -848,23 +578,11 @@ int vrpn_Generic_Server_Object::setup_Example_Dial(char * & pch, char * line, FI
     return -1;
   }
 
-  // Make sure there's room for a new dial
-  if (num_dials >= VRPN_GSO_MAX_DIALS) {
-    fprintf (stderr, "Too many dials in config file");
-    return -1;
-  }
-
   // Open the dial
   if (verbose) printf (
       "Opening vrpn_Dial_Example: %s with %d sensors, spinrate %f, update %f\n",
       s2, i1, f1, f2);
-  if ( (dials[num_dials] =
-          new vrpn_Dial_Example_Server (s2, connection, i1, f1, f2)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Dial_Example\n");
-    return -1;
-  } else {
-    num_dials++;
-  }
+  _devices.add(new vrpn_Dial_Example_Server (s2, connection, i1, f1, f2));
 
   return 0;
 }
@@ -882,25 +600,12 @@ int vrpn_Generic_Server_Object::setup_CerealBox (char * & pch, char * line, FILE
     return -1;
   }
 
-  // Make sure there's room for a new box
-  if (num_cereals >= VRPN_GSO_MAX_CEREALS) {
-    fprintf (stderr, "Too many Cereal boxes in config file");
-    return -1;
-  }
-
   // Open the box
   if (verbose)
     printf ("Opening vrpn_Cereal: %s on port %s, baud %d, %d dig, "
             " %d ana, %d enc\n",
             s2, s3, i1, i2, i3, i4);
-  if ( (cereals[num_cereals] =
-          new vrpn_CerealBox (s2, connection, s3, i1, i2, i3, i4))
-       == NULL) {
-    fprintf (stderr, "Can't create new vrpn_CerealBox\n");
-    return -1;
-  } else {
-    num_cereals++;
-  }
+  _devices.add(new vrpn_CerealBox (s2, connection, s3, i1, i2, i3, i4));
 
   return 0;
 }
@@ -930,22 +635,11 @@ int vrpn_Generic_Server_Object::setup_Magellan (char * & pch, char * line, FILE 
     }
   }
 
-  // Make sure there's room for a new magellan
-  if (num_magellans >= VRPN_GSO_MAX_MAGELLANS) {
-    fprintf (stderr, "Too many Magellans in config file");
-    return -1;
-  }
-
   // Open the device
   if (verbose) {
     printf ("Opening vrpn_Magellan: %s on port %s, baud %d\n", s2, s3, i1);
   }
-  if ( (magellans[num_magellans] = new vrpn_Magellan (s2, connection, s3, i1, altreset)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Magellan\n");
-    return -1;
-  } else {
-    num_magellans++;
-  }
+  _devices.add(new vrpn_Magellan (s2, connection, s3, i1, altreset));
 
   return 0;
 }
@@ -963,25 +657,11 @@ int vrpn_Generic_Server_Object::setup_Spaceball (char * & pch, char * line, FILE
     return -1;
   }
 
-  // Make sure there's room for a new magellan
-  if (num_spaceballs >= VRPN_GSO_MAX_SPACEBALLS) {
-    fprintf (stderr, "Too many Spaceballs in config file");
-    return -1;
-  }
-
   // Open the device
   if (verbose)
     printf ("Opening vrpn_Spaceball: %s on port %s, baud %d\n",
             s2, s3, i1);
-  if ( (spaceballs[num_spaceballs] =
-          new vrpn_Spaceball (s2, connection, s3, i1)) == NULL)
-
-  {
-    fprintf (stderr, "Can't create new vrpn_Spaceball\n");
-    return -1;
-  } else {
-    num_spaceballs++;
-  }
+  _devices.add(new vrpn_Spaceball (s2, connection, s3, i1));
 
   return 0;
 }
@@ -998,23 +678,11 @@ int vrpn_Generic_Server_Object::setup_Radamec_SPI (char * & pch, char * line, FI
     return -1;
   }
 
-  // Make sure there's room for a new analog
-  if (num_analogs >= VRPN_GSO_MAX_ANALOG) {
-    fprintf (stderr, "Too many Analogs in config file");
-    return -1;
-  }
-
   // Open the device
   if (verbose)
     printf ("Opening vrpn_Radamec_SPI: %s on port %s, baud %d\n",
             s2, s3, i1);
-  if ( (analogs[num_analogs] =
-          new vrpn_Radamec_SPI (s2, connection, s3, i1)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Radamec_SPI\n");
-    return -1;
-  } else {
-    num_analogs++;
-  }
+  _devices.add(new vrpn_Radamec_SPI (s2, connection, s3, i1));
 
   return 0;
 }
@@ -1030,23 +698,11 @@ int vrpn_Generic_Server_Object::setup_Zaber (char * & pch, char * line, FILE * c
     return -1;
   }
 
-  // Make sure there's room for a new analog
-  if (num_analogs >= VRPN_GSO_MAX_ANALOG) {
-    fprintf (stderr, "Too many Analogs in config file");
-    return -1;
-  }
-
   // Open the device
   if (verbose) {
     printf ("Opening vrpn_Zaber: %s on port %s\n", s2, s3);
   }
-  if ( (analogs[num_analogs] =
-          new vrpn_Zaber (s2, connection, s3)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Zaber\n");
-    return -1;
-  } else {
-    num_analogs++;
-  }
+  _devices.add(new vrpn_Zaber (s2, connection, s3));
 
   return 0;
 }
@@ -1064,24 +720,12 @@ int vrpn_Generic_Server_Object::setup_BiosciencesTools (char * & pch, char * lin
     return -1;
   }
 
-  // Make sure there's room for a new analog
-  if (num_analogs >= VRPN_GSO_MAX_ANALOG) {
-    fprintf (stderr, "Too many Analogs in config file");
-    return -1;
-  }
-
   // Open the device
   if (verbose) {
     printf ("Opening vrpn_BiosciencesTools: %s on port %s\n", s2, s3);
     printf ("    Temperatures: %g %g, control %d\n", f1, f2, i1);
   }
-  if ( (analogs[num_analogs] =
-          new vrpn_BiosciencesTools (s2, connection, s3, f1, f2, (i1 != 0))) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_BiosciencesTools\n");
-    return -1;
-  } else {
-    num_analogs++;
-  }
+  _devices.add(new vrpn_BiosciencesTools (s2, connection, s3, f1, f2, (i1 != 0)));
 
   return 0;
 }
@@ -1108,28 +752,16 @@ int vrpn_Generic_Server_Object::setup_IDEA (char * & pch, char * line, FILE * co
     return -1;
   }
 
-  // Make sure there's room for a new analog
-  if (num_analogs >= VRPN_GSO_MAX_ANALOG) {
-    fprintf (stderr, "Too many Analogs in config file");
-    return -1;
-  }
-
   // Open the device
   if (verbose) {
     printf ("Opening vrpn_IDEA: %s on port %s\n", s2, s3);
   }
-  if ( (analogs[num_analogs] =
-          new vrpn_IDEA (s2, connection, s3,
+  _devices.add(new vrpn_IDEA (s2, connection, s3,
                          run_speed, start_speed, end_speed, accel_rate, decel_rate,
                          run_current, hold_current, accel_current, decel_current,
                          delay, step, high_limit, low_limit,
                          output_1, output_2, output_3, output_4,
-                         initial_move, fractional_c_a)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_IDEA\n");
-    return -1;
-  } else {
-    num_analogs++;
-  }
+                         initial_move, fractional_c_a));
 
   return 0;
 }
@@ -1153,23 +785,11 @@ int vrpn_Generic_Server_Object::setup_NationalInstrumentsOutput (char * & pch, c
     return -1;
   }
 
-  // Make sure there's room for a new analog
-  if (num_analogouts >= VRPN_GSO_MAX_ANALOGOUT) {
-    fprintf (stderr, "Too many Analog Outputs in config file");
-    return -1;
-  }
-
   // Open the device
   if (verbose) {
     printf ("Opening vrpn_NI_Analog_Output: %s with %d channels\n", s2, i1);
   }
-  if ( (analogouts[num_analogouts] =
-          new vrpn_Analog_Output_Server_NI (s2, connection, s3, i1, i2 != 0, f1, f2)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_NI_Analog_Output\n");
-    return -1;
-  } else {
-    num_analogouts++;
-  }
+  _devices.add(new vrpn_Analog_Output_Server_NI (s2, connection, s3, i1, i2 != 0, f1, f2));
 #endif
 
   return 0;
@@ -1195,12 +815,6 @@ int vrpn_Generic_Server_Object::setup_NationalInstruments (char * & pch, char * 
     return -1;
   }
 
-  // Make sure there's room for a new analog
-  if (num_analogs >= VRPN_GSO_MAX_ANALOG) {
-    fprintf (stderr, "Too many Analogs in config file");
-    return -1;
-  }
-
   // Open the device
   if (verbose) {
     printf ("Opening vrpn_National_Instruments_Server: %s with %d in and %d out channels\n", s2, num_in_channels, num_out_channels);
@@ -1208,15 +822,9 @@ int vrpn_Generic_Server_Object::setup_NationalInstruments (char * & pch, char * 
     printf ("  In driveAIS %d, In gain %d\n", in_drive_ais, in_gain);
     printf ("  Out polarity %d, Min out voltage %f, Max out voltage %f\n", out_polarity, min_out_voltage, max_out_voltage);
   }
-  if ( (analogs[num_analogs] =
-          new vrpn_National_Instruments_Server (s2, connection, s3, num_in_channels, num_out_channels,
+  _devices.add(new vrpn_National_Instruments_Server (s2, connection, s3, num_in_channels, num_out_channels,
               minimum_delay, in_polarity != 0, in_mode, in_range, in_drive_ais != 0, in_gain,
-              out_polarity != 0, min_out_voltage, max_out_voltage)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_National_Instruments_Server\n");
-    return -1;
-  } else {
-    num_analogs++;
-  }
+              out_polarity != 0, min_out_voltage, max_out_voltage));
 #else
   fprintf (stderr, "Attempting to use National Instruments board, but not compiled in\n");
   fprintf (stderr, "  (Define VRPN_USE_NATIONAL_INSTRUMENTS in vrpn_Configuration.h\n");
@@ -1238,23 +846,12 @@ int vrpn_Generic_Server_Object::setup_ImmersionBox (char * & pch, char * line, F
     return -1;
   }
 
-  // Make sure there's room for a new box
-  if (num_iboxes >= VRPN_GSO_MAX_IBOXES) {
-    fprintf (stderr, "Too many Immersion boxes in config file");
-    return -1;
-  }
-
   // Open the box
   if (verbose)
     printf ("Opening vrpn_ImmersionBox: %s on port %s, baud %d, %d digital, "
             " %d analog, %d encoders\n", s2, s3, i1, i2, i3, i4);
 
-  ibox = new vrpn_ImmersionBox (s2, connection, s3, i1, i2, i3, i4);
-  if (NULL == ibox) {
-    fprintf (stderr, "Can't create new vrpn_ImmersionBox\n");
-    return -1;
-  }
-  iboxes[num_iboxes++] = ibox;
+  _devices.add(new vrpn_ImmersionBox (s2, connection, s3, i1, i2, i3, i4));
   return 0;
 }
 
@@ -1269,24 +866,13 @@ int vrpn_Generic_Server_Object::setup_5dt (char * & pch, char * line, FILE * con
     fprintf (stderr, "Bad vrpn_5dt line: %s\n", line);
     return -1;
   }
-  // Make sure there's room for a new analog
-  if (num_analogs >= VRPN_GSO_MAX_ANALOG) {
-    fprintf (stderr, "Too many Analogs in config file");
-    return -1;
-  }
 
   // Open the device
   if (verbose) {
     printf ("Opening vrpn_5dt: %s on port %s, baud %d\n",
             name, device, baud_rate);
   }
-  if ( (analogs[num_analogs] =
-          new vrpn_5dt (name, connection, device, baud_rate, mode, tenbytes != 0)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_5dt\n");
-    return -1;
-  } else {
-    num_analogs++;
-  }
+  _devices.add(new vrpn_5dt (name, connection, device, baud_rate, mode, tenbytes != 0));
 
   return 0;
 }
@@ -1302,23 +888,13 @@ int vrpn_Generic_Server_Object::setup_5dt16 (char * & pch, char * line, FILE * c
     fprintf (stderr, "Bad vrpn_5dt16 line: %s\n", line);
     return -1;
   }
-  // Make sure there's room for a new analog
-  if (num_analogs >= VRPN_GSO_MAX_ANALOG) {
-    fprintf (stderr, "Too many Analogs in config file");
-    return -1;
-  }
 
   // Open the device
   if (verbose) {
     printf ("Opening vrpn_5dt16: %s on port %s, baud %d\n",
             name, device, baud_rate);
   }
-  if ( (analogs[num_analogs] = new vrpn_5dt16 (name, connection, device, baud_rate)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_5dt16\n");
-    return -1;
-  } else {
-    num_analogs++;
-  }
+  _devices.add(new vrpn_5dt16 (name, connection, device, baud_rate));
 
   return 0;
 }
@@ -1334,22 +910,12 @@ int vrpn_Generic_Server_Object::setup_Keyboard (char * & pch, char * line, FILE 
     fprintf (stderr, "Bad vrpn_Keyboard line: %s\n", line);
     return -1;
   }
-  // Make sure there's room for a new keyboard
-  if (num_Keyboards >= VRPN_GSO_MAX_KEYBOARD) {
-    fprintf (stderr, "Too many Keyboards in config file");
-    return -1;
-  }
 
   // Open the device
   if (verbose) {
     printf ("Opening Keyboard: %s\n", name);
   }
-  if ( (Keyboards[num_Keyboards] = new vrpn_Keyboard (name, connection)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Keyboard\n");
-    return -1;
-  } else {
-    num_Keyboards++;
-  }
+  _devices.add(new vrpn_Keyboard (name, connection));
 
   return 0;
 }
@@ -1362,28 +928,17 @@ int vrpn_Generic_Server_Object::setup_Button_USB (char * & pch, char * line, FIL
   next();
   // Get the arguments (button_name)
   if (sscanf (pch, "%511s%511s", name, deviceName) != 2) {
-    fprintf (stderr, "Bad vrpn_Button_5dt_Server line: %s\n", line);
+    fprintf (stderr, "Bad vrpn_Button_USB line: %s\n", line);
     return -1;
   }
 
-  // Make sure there's room for a new button
-  if (num_buttons >= VRPN_GSO_MAX_BUTTONS) {
-    fprintf (stderr, "vrpn_Button_USB: Too many buttons in config file");
-    return -1;
-  }
 
   // Open the button
   if (verbose) {
     printf ("Opening vrpn_Button_USB: %s \n", name);
   }
 #ifdef	_WIN32
-  if ( (buttons[num_buttons] = new vrpn_Button_USB (name, deviceName, connection))
-       == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Button_USB\n");
-    return -1;
-  } else {
-    num_buttons++;
-  }
+  _devices.add(new vrpn_Button_USB (name, deviceName, connection));
 #else
   printf ("vrpn_Button_USB only compiled for Windows.\n");
 #endif
@@ -1408,23 +963,11 @@ int vrpn_Generic_Server_Object::setup_Button_5DT_Server (char * & pch, char * li
     return -1;
   }
 
-  // Make sure there's room for a new button
-  if (num_buttons >= VRPN_GSO_MAX_BUTTONS) {
-    fprintf (stderr, "vrpn_Button_5dt_Server: Too many buttons in config file");
-    return -1;
-  }
-
   // Open the button
   if (verbose) {
     printf ("Opening vrpn_Button_5dt_Server: %s \n", name);
   }
-  if ( (buttons[num_buttons] = new vrpn_Button_5DT_Server (name, deviceName, connection, center))
-       == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Button_5dt_Server\n");
-    return -1;
-  } else {
-    num_buttons++;
-  }
+  _devices.add(new vrpn_Button_5DT_Server (name, deviceName, connection, center));
 
   return 0;
 }
@@ -1442,25 +985,13 @@ int vrpn_Generic_Server_Object::setup_Wanda (char * & pch, char * line, FILE * c
     return -1;
   }
 
-  // Make sure there's room for a new wanda server
-  if (num_analogs >= VRPN_GSO_MAX_ANALOG) {
-    fprintf (stderr, "Too many analog devices in config file");
-    return -1;
-  }
-
   // Create the server
   if (verbose)
     printf ("Opening vrpn_Wanda:  "
             "%s on port %s baud %d, min update rate = %.2f\n",
             s2, s3, i1, fhz);
 
-  if ( (analogs[num_analogs] =
-          new vrpn_Wanda (s2, connection, s3, i1, fhz)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Wanda\n");
-    return -1;
-  } else {
-    num_analogs++;
-  }
+  _devices.add(new vrpn_Wanda (s2, connection, s3, i1, fhz));
 
   return 0;
 }
@@ -1479,24 +1010,12 @@ int vrpn_Generic_Server_Object::setup_Tracker_Dyna (char * & pch, char * line, F
     return -1;
   }
 
-  // Make sure there's room for a new tracker
-  if (num_trackers >= VRPN_GSO_MAX_TRACKERS) {
-    fprintf (stderr, "Too many trackers in config file");
-    return -1;
-  }
-
   // Open the tracker
   if (verbose)
     printf ("Opening vrpn_Tracker_Dyna: %s on port %s, baud %d, "
             "%d sensors\n",
             s2, s3, i1, i2);
-  if ( (trackers[num_trackers] =
-          new vrpn_Tracker_Dyna (s2, connection, i2, s3, i1)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Tracker_Dyna\n");
-    return -1;
-  } else {
-    num_trackers++;
-  }
+  _devices.add(new vrpn_Tracker_Dyna (s2, connection, i2, s3, i1));
 
   return 0;
 }
@@ -1507,7 +1026,6 @@ int vrpn_Generic_Server_Object::setup_Tracker_3DMouse (char * & pch, char * line
   int i1;
   int filtering_count = 1;
   int numparms;
-  vrpn_Tracker_3DMouse	*mytracker;
 
   next();
 
@@ -1531,13 +1049,7 @@ int vrpn_Generic_Server_Object::setup_Tracker_3DMouse (char * & pch, char * line
     printf ("Opening vrpn_Tracker_3DMouse: %s on port %s, baud %d\n", s2, s3, i1);
   }
 
-  if ( (trackers[num_trackers] = mytracker =
-                                   new vrpn_Tracker_3DMouse (s2, connection, s3, i1, filtering_count)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Tracker_3DMouse\n");
-    return -1;
-  } else {
-    num_trackers++;
-  }
+  _devices.add(new vrpn_Tracker_3DMouse (s2, connection, s3, i1, filtering_count));
 
   return 0;
 }
@@ -1548,7 +1060,6 @@ int vrpn_Generic_Server_Object::setup_Tracker_NovintFalcon (char * & pch, char *
   char s2[LINESIZE], s3[LINESIZE], s4[LINESIZE], s5[LINESIZE];
   int i1;
   int numparms;
-  vrpn_Tracker_NovintFalcon	*mytracker;
 
   next();
 
@@ -1576,13 +1087,7 @@ int vrpn_Generic_Server_Object::setup_Tracker_NovintFalcon (char * & pch, char *
     printf ("Opening vrpn_Tracker_NovintFalcon: %s device: %d, grip: %s, kinematics: %s damping: %s\n", s2, i1, s3, s4, s5);
   }
 
-  if ( (trackers[num_trackers] = mytracker =
-                                   new vrpn_Tracker_NovintFalcon (s2, connection, i1, s3, s4, s5)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Tracker_NovintFalcon\n");
-    return -1;
-  } else {
-    num_trackers++;
-  }
+  _devices.add(new vrpn_Tracker_NovintFalcon (s2, connection, i1, s3, s4, s5));
 #endif
   return 0;
 }
@@ -1593,7 +1098,6 @@ int vrpn_Generic_Server_Object::setup_Tracker_Fastrak (char * & pch, char * line
   char s2 [LINESIZE], s3 [LINESIZE], s4 [LINESIZE];
   int i1;
   int numparms;
-  vrpn_Tracker_Fastrak	*mytracker;
   int do_is900_timing = 0;
 
   char    rcmd[5000];     // Reset command to send to Fastrak
@@ -1618,12 +1122,6 @@ int vrpn_Generic_Server_Object::setup_Tracker_Fastrak (char * & pch, char * line
       fprintf (stderr, "Fastrak/Isense: Bad timing optional param (expected 'IS900time', got '%s')\n", s4);
       return -1;
     }
-  }
-
-  // Make sure there's room for a new tracker
-  if (num_trackers >= VRPN_GSO_MAX_TRACKERS) {
-    fprintf (stderr, "Too many trackers in config file");
-    return -1;
   }
 
   // If the last character in the line is a backslash, '\', then
@@ -1669,89 +1167,82 @@ int vrpn_Generic_Server_Object::setup_Tracker_Fastrak (char * & pch, char * line
       "Opening vrpn_Tracker_Fastrak: %s on port %s, baud %d\n",
       s2, s3, i1);
 
-  if ( (trackers[num_trackers] = mytracker =
-                                   new vrpn_Tracker_Fastrak (s2, connection, s3, i1, 1, 4, rcmd, do_is900_timing))
-       == NULL) {
+  vrpn_Tracker_Fastrak	*mytracker = new vrpn_Tracker_Fastrak (s2, connection, s3, i1, 1, 4, rcmd, do_is900_timing);
+  // If the last character in the line is a front slash, '/', then
+  // the following line is a command to add a Wand or Stylus to one
+  // of the sensors on the tracker.  Read and parse the line after,
+  // then add the devices needed to support.  Each line has two
+  // arguments, the string name of the devices and the integer
+  // sensor number (starting with 0) to attach the device to.
+  while (line[strlen (line) - 2] == '/') {
+    char lineCommand[LINESIZE];
+    char lineName[LINESIZE];
+    int	 lineSensor;
 
-    fprintf (stderr, "Can't create new vrpn_Tracker_Fastrak\n");
-    return -1;
-
-  } else {
-    // If the last character in the line is a front slash, '/', then
-    // the following line is a command to add a Wand or Stylus to one
-    // of the sensors on the tracker.  Read and parse the line after,
-    // then add the devices needed to support.  Each line has two
-    // arguments, the string name of the devices and the integer
-    // sensor number (starting with 0) to attach the device to.
-    while (line[strlen (line) - 2] == '/') {
-      char lineCommand[LINESIZE];
-      char lineName[LINESIZE];
-      int	 lineSensor;
-
-      // Read the next line
-      if (fgets (line, LINESIZE, config_file) == NULL) {
-        fprintf (stderr, "Ran past end of config file in Fastrak/Isense description\n");
-        return -1;
-      }
-
-      // Parse the line.  Both "Wand" and "Stylus" lines start with the name and sensor #
-      if (sscanf (line, "%511s%511s%d", lineCommand, lineName, &lineSensor) != 3) {
-        fprintf (stderr, "Bad line in Wand/Stylus description for Fastrak/Isense (%s)\n", line);
-        delete trackers[num_trackers];
-        return -1;
-      }
-
-      // See which command it is and act accordingly
-      if (strcmp (lineCommand, "Wand") == 0) {
-        double c0min, c0lo0, c0hi0, c0max;
-        double c1min, c1lo0, c1hi0, c1max;
-
-        // Wand line has additional scale/clip information; read it in
-        if (sscanf (line, "%511s%511s%d%lf%lf%lf%lf%lf%lf%lf%lf", lineCommand, lineName, &lineSensor,
-                    &c0min, &c0lo0, &c0hi0, &c0max,
-                    &c1min, &c1lo0, &c1hi0, &c1max) != 11) {
-          fprintf (stderr, "Bad line in Wand description for Fastrak/Isense (%s)\n", line);
-          delete trackers[num_trackers];
-          return -1;
-        }
-
-        if (mytracker->add_is900_analog (lineName, lineSensor, c0min, c0lo0, c0hi0, c0max,
-                                         c1min, c1lo0, c1hi0, c1max)) {
-          fprintf (stderr, "Cannot set Wand analog for Fastrak/Isense (%s)\n", line);
-          delete trackers[num_trackers];
-          return -1;
-        }
-        if (mytracker->add_is900_button (lineName, lineSensor, 6)) {
-          fprintf (stderr, "Cannot set Wand buttons for Fastrak/Isense (%s)\n", line);
-          delete trackers[num_trackers];
-          return -1;
-        }
-        printf (" ...added Wand (%s) to sensor %d\n", lineName, lineSensor);
-
-      } else if (strcmp (lineCommand, "Stylus") == 0) {
-        if (mytracker->add_is900_button (lineName, lineSensor, 2)) {
-          fprintf (stderr, "Cannot set Stylus buttons for Fastrak/Isense (%s)\n", line);
-          delete trackers[num_trackers];
-          return -1;
-        }
-        printf (" ...added Stylus (%s) to sensor %d\n", lineName, lineSensor);
-      } else if (strcmp (lineCommand, "FTStylus") == 0) {
-        if (mytracker->add_fastrak_stylus_button (lineName, lineSensor, 1)) {
-          fprintf (stderr, "Cannot set Stylus buttons for Fastrak (%s)\n", line);
-          delete trackers[num_trackers];
-          return -1;
-        }
-        printf (" ...added FTStylus (%s) to sensor %d\n", lineName, lineSensor);
-      } else {
-        fprintf (stderr, "Unknown command in Wand/Stylus description for Fastrak/Isense (%s)\n", lineCommand);
-        delete trackers[num_trackers];
-        return -1;
-      }
-
+    // Read the next line
+    if (fgets (line, LINESIZE, config_file) == NULL) {
+      fprintf (stderr, "Ran past end of config file in Fastrak/Isense description\n");
+      delete mytracker;
+      return -1;
     }
 
-    num_trackers++;
+    // Parse the line.  Both "Wand" and "Stylus" lines start with the name and sensor #
+    if (sscanf (line, "%511s%511s%d", lineCommand, lineName, &lineSensor) != 3) {
+      fprintf (stderr, "Bad line in Wand/Stylus description for Fastrak/Isense (%s)\n", line);
+      delete mytracker;
+      return -1;
+    }
+
+    // See which command it is and act accordingly
+    if (strcmp (lineCommand, "Wand") == 0) {
+      double c0min, c0lo0, c0hi0, c0max;
+      double c1min, c1lo0, c1hi0, c1max;
+
+      // Wand line has additional scale/clip information; read it in
+      if (sscanf (line, "%511s%511s%d%lf%lf%lf%lf%lf%lf%lf%lf", lineCommand, lineName, &lineSensor,
+                  &c0min, &c0lo0, &c0hi0, &c0max,
+                  &c1min, &c1lo0, &c1hi0, &c1max) != 11) {
+        fprintf (stderr, "Bad line in Wand description for Fastrak/Isense (%s)\n", line);
+        delete mytracker;
+        return -1;
+      }
+
+      if (mytracker->add_is900_analog (lineName, lineSensor, c0min, c0lo0, c0hi0, c0max,
+                                       c1min, c1lo0, c1hi0, c1max)) {
+        fprintf (stderr, "Cannot set Wand analog for Fastrak/Isense (%s)\n", line);
+        delete mytracker;
+        return -1;
+      }
+      if (mytracker->add_is900_button (lineName, lineSensor, 6)) {
+        fprintf (stderr, "Cannot set Wand buttons for Fastrak/Isense (%s)\n", line);
+        delete mytracker;
+        return -1;
+      }
+      printf (" ...added Wand (%s) to sensor %d\n", lineName, lineSensor);
+
+    } else if (strcmp (lineCommand, "Stylus") == 0) {
+      if (mytracker->add_is900_button (lineName, lineSensor, 2)) {
+        fprintf (stderr, "Cannot set Stylus buttons for Fastrak/Isense (%s)\n", line);
+        delete mytracker;
+        return -1;
+      }
+      printf (" ...added Stylus (%s) to sensor %d\n", lineName, lineSensor);
+    } else if (strcmp (lineCommand, "FTStylus") == 0) {
+      if (mytracker->add_fastrak_stylus_button (lineName, lineSensor, 1)) {
+        fprintf (stderr, "Cannot set Stylus buttons for Fastrak (%s)\n", line);
+        delete mytracker;
+        return -1;
+      }
+      printf (" ...added FTStylus (%s) to sensor %d\n", lineName, lineSensor);
+    } else {
+      fprintf (stderr, "Unknown command in Wand/Stylus description for Fastrak/Isense (%s)\n", lineCommand);
+      delete mytracker;
+      return -1;
+    }
+
   }
+
+  _devices.add(mytracker);
 
   return 0;
 }
@@ -1762,7 +1253,6 @@ int vrpn_Generic_Server_Object::setup_Tracker_Isotrak (char * & pch, char * line
   char s2 [LINESIZE], s3 [LINESIZE], s4 [LINESIZE];
   int i1;
   int numparms;
-  vrpn_Tracker_Isotrak    *mytracker;
 
   char    rcmd[5000];     // Reset command to send to Fastrak
   next();
@@ -1770,12 +1260,6 @@ int vrpn_Generic_Server_Object::setup_Tracker_Isotrak (char * & pch, char * line
   if ( (numparms = sscanf (pch, "%511s%511s%d%511s", s2, s3, &i1, s4)) < 3) {
     fprintf (stderr, "Bad vrpn_Tracker_Isotrak line: %s\n%s %s\n",
              line, pch, s3);
-    return -1;
-  }
-
-  // Make sure there's room for a new tracker
-  if (num_trackers >= VRPN_GSO_MAX_TRACKERS) {
-    fprintf (stderr, "Too many trackers in config file");
     return -1;
   }
 
@@ -1822,55 +1306,48 @@ int vrpn_Generic_Server_Object::setup_Tracker_Isotrak (char * & pch, char * line
       "Opening vrpn_Isotrak: %s on port %s, baud %d\n",
       s2, s3, i1);
 
-  if ( (trackers[num_trackers] = mytracker =
-                                   new vrpn_Tracker_Isotrak (s2, connection, s3, i1, 1, 4, rcmd))
-       == NULL) {
+  vrpn_Tracker_Isotrak    *mytracker = new vrpn_Tracker_Isotrak (s2, connection, s3, i1, 1, 4, rcmd);
+  // If the last character in the line is a front slash, '/', then
+  // the following line is a command to add a Wand or Stylus to one
+  // of the sensors on the tracker.  Read and parse the line after,
+  // then add the devices needed to support.  Each line has two
+  // arguments, the string name of the devices and the integer
+  // sensor number (starting with 0) to attach the device to.
+  while (line[strlen (line) - 2] == '/') {
+    char lineCommand[LINESIZE];
+    char lineName[LINESIZE];
+    int     lineSensor;
 
-    fprintf (stderr, "Can't create new vrpn_Isotrak\n");
-    return -1;
-
-  } else {
-    // If the last character in the line is a front slash, '/', then
-    // the following line is a command to add a Wand or Stylus to one
-    // of the sensors on the tracker.  Read and parse the line after,
-    // then add the devices needed to support.  Each line has two
-    // arguments, the string name of the devices and the integer
-    // sensor number (starting with 0) to attach the device to.
-    while (line[strlen (line) - 2] == '/') {
-      char lineCommand[LINESIZE];
-      char lineName[LINESIZE];
-      int     lineSensor;
-
-      // Read the next line
-      if (fgets (line, LINESIZE, config_file) == NULL) {
-        fprintf (stderr, "Ran past end of config file in Fastrak/Isense description\n");
-        return -1;
-      }
-
-      // Parse the line.  Both "Wand" and "Stylus" lines start with the name and sensor #
-      if (sscanf (line, "%511s%511s%d", lineCommand, lineName, &lineSensor) != 3) {
-        fprintf (stderr, "Bad line in Wand/Stylus description for Fastrak/Isense (%s)\n", line);
-        delete trackers[num_trackers];
-        return -1;
-      }
-
-        // CBO: Added support to Isotrak stylus
-        if (strcmp(lineCommand, "Stylus") == 0) {
-            if (mytracker->add_stylus_button(lineName, lineSensor)) {
-                fprintf(stderr,"Cannot set Stylus buttons for Isotrak (%s)\n",line);
-                delete trackers[num_trackers];
-                return -1;
-            }
-            printf(" ...added Stylus (%s) to sensor %d\n", lineName, lineSensor);
-        } else {
-            fprintf(stderr,"Unknown command in Stylus description for Isotrak (%s)\n",lineCommand);
-            delete trackers[num_trackers];
-            return -1;
-        }
+    // Read the next line
+    if (fgets (line, LINESIZE, config_file) == NULL) {
+      fprintf (stderr, "Ran past end of config file in Fastrak/Isense description\n");
+      delete mytracker;
+      return -1;
     }
 
-    num_trackers++;
+    // Parse the line.  Both "Wand" and "Stylus" lines start with the name and sensor #
+    if (sscanf (line, "%511s%511s%d", lineCommand, lineName, &lineSensor) != 3) {
+      fprintf (stderr, "Bad line in Wand/Stylus description for Fastrak/Isense (%s)\n", line);
+      delete mytracker;
+      return -1;
+    }
+
+    // CBO: Added support to Isotrak stylus
+    if (strcmp(lineCommand, "Stylus") == 0) {
+      if (mytracker->add_stylus_button(lineName, lineSensor)) {
+          fprintf(stderr,"Cannot set Stylus buttons for Isotrak (%s)\n",line);
+          delete mytracker;
+          return -1;
+      }
+      printf(" ...added Stylus (%s) to sensor %d\n", lineName, lineSensor);
+    } else {
+      fprintf(stderr,"Unknown command in Stylus description for Isotrak (%s)\n",lineCommand);
+      delete mytracker;
+      return -1;
+    }
   }
+
+  _devices.add(mytracker);
 
   return 0;
 }
@@ -1890,13 +1367,6 @@ int vrpn_Generic_Server_Object::setup_Tracker_Liberty (char * & pch, char * line
   if (numparms < 3) {
     fprintf (stderr, "Bad vrpn_Tracker_Liberty line: %s\n%s %s\n",
              line, pch, s3);
-    return -1;
-  }
-
-
-  // Make sure there's room for a new tracker
-  if (num_trackers >= VRPN_GSO_MAX_TRACKERS) {
-    fprintf (stderr, "Too many trackers in config file");
     return -1;
   }
 
@@ -1944,21 +1414,9 @@ int vrpn_Generic_Server_Object::setup_Tracker_Liberty (char * & pch, char * line
       s2, s3, i1);
 
   if (numparms == 3) {
-    if ( (trackers[num_trackers] = mytracker =
-                                     new vrpn_Tracker_Liberty (s2, connection, s3, i1, 0, 8, rcmd))
-         == NULL) {
-
-      fprintf (stderr, "Can't create new vrpn_Tracker_Liberty\n");
-      return -1;
-    }
+    mytracker = new vrpn_Tracker_Liberty (s2, connection, s3, i1, 0, 8, rcmd);
   } else {
-    if ( (trackers[num_trackers] = mytracker =
-                                     new vrpn_Tracker_Liberty (s2, connection, s3, i1, 0, 8, rcmd, i2))
-         == NULL) {
-
-      fprintf (stderr, "Can't create new vrpn_Tracker_Liberty\n");
-      return -1;
-    }
+    mytracker = new vrpn_Tracker_Liberty (s2, connection, s3, i1, 0, 8, rcmd, i2);
   }
 
   // If the last character in the line is a front slash, '/', then
@@ -1975,31 +1433,32 @@ int vrpn_Generic_Server_Object::setup_Tracker_Liberty (char * & pch, char * line
     // Read the next line
     if (fgets (line, LINESIZE, config_file) == NULL) {
       fprintf (stderr, "Ran past end of config file in Liberty description\n");
+      delete mytracker;
       return -1;
     }
 
     // Parse the line.
     if (sscanf (line, "%511s%511s%d", lineCommand, lineName, &lineSensor) != 3) {
       fprintf (stderr, "Bad line in Stylus description for Liberty (%s)\n", line);
-      delete trackers[num_trackers];
+      delete mytracker;
       return -1;
     }
 
     if (strcmp (lineCommand, "Stylus") == 0) {
       if (mytracker->add_stylus_button (lineName, lineSensor, 2)) {
         fprintf (stderr, "Cannot set Stylus buttons for Liberty (%s)\n", line);
-        delete trackers[num_trackers];
+        delete mytracker;
         return -1;
       }
       printf (" ...added Stylus (%s) to sensor %d\n", lineName, lineSensor);
     } else {
       fprintf (stderr, "Unknown command inStylus description for Liberty (%s)\n", lineCommand);
-      delete trackers[num_trackers];
+      delete mytracker;
       return -1;
     }
 
   }
-  num_trackers++;
+  _devices.add(mytracker);
 
   return 0;
 }
@@ -2018,12 +1477,6 @@ int vrpn_Generic_Server_Object::setup_Tracker_LibertyHS (char * & pch, char * li
   numparms = sscanf (pch, "%511s%d%d", s2, &i1, &i2, &i3);
   if (numparms < 3) {
     fprintf (stderr, "Bad vrpn_Tracker_LibertyHS line: %s\n", line);
-    return -1;
-  }
-
-  // Make sure there's room for a new tracker
-  if (num_trackers >= VRPN_GSO_MAX_TRACKERS) {
-    fprintf (stderr, "Too many trackers in config file");
     return -1;
   }
 
@@ -2071,24 +1524,10 @@ int vrpn_Generic_Server_Object::setup_Tracker_LibertyHS (char * & pch, char * li
       s2, i2);
 
   if (numparms == 3) {
-    if ( (trackers[num_trackers] = mytracker =
-                                     new vrpn_Tracker_LibertyHS (s2, connection, i2, 0, i1, 1, rcmd))
-         == NULL) {
-
-      fprintf (stderr, "Can't create new vrpn_Tracker_LibertyHS\n");
-      return -1;
-    }
+    _devices.add(new vrpn_Tracker_LibertyHS (s2, connection, i2, 0, i1, 1, rcmd));
   } else {
-    if ( (trackers[num_trackers] = mytracker =
-                                     new vrpn_Tracker_LibertyHS (s2, connection, i2, 0, i1, 1, rcmd, i3))
-         == NULL) {
-
-      fprintf (stderr, "Can't create new vrpn_Tracker_LibertyHS\n");
-      return -1;
-    }
+    _devices.add(new vrpn_Tracker_LibertyHS (s2, connection, i2, 0, i1, 1, rcmd, i3));
   }
-
-  num_trackers++;
 #else
   printf ("Can't create new vrpn_Tracker_LibertyHS: Server not compiled with VRPN_USE_LIBUSB_1_0 defined.\n");
   return -1;
@@ -2110,26 +1549,11 @@ int vrpn_Generic_Server_Object::setup_Tracker_3Space (char * & pch, char * line,
     return -1;
   }
 
-  // Make sure there's room for a new tracker
-  if (num_trackers >= VRPN_GSO_MAX_TRACKERS) {
-    fprintf (stderr, "Too many trackers in config file");
-    return -1;
-  }
-
   // Open the tracker
   if (verbose) printf (
       "Opening vrpn_Tracker_3Space: %s on port %s, baud %d\n",
       s2, s3, i1);
-  if ( (trackers[num_trackers] =
-          new vrpn_Tracker_3Space (s2, connection, s3, i1)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Tracker_3Space\n");
-    return -1;
-  } else {
-    num_trackers++;
-  }
-
-
-
+  _devices.add(new vrpn_Tracker_3Space (s2, connection, s3, i1));
   return 0;
 }
 
@@ -2181,13 +1605,6 @@ int vrpn_Generic_Server_Object::setup_Tracker_Flock (char * & pch, char * line, 
     return -1;
   }
 
-
-  // Make sure there's room for a new tracker
-  if (num_trackers >= VRPN_GSO_MAX_TRACKERS) {
-    fprintf (stderr, "Too many trackers in config file");
-    return -1;
-  }
-
   // Open the tracker
   bool buseERT = true;
   if ( (useERT[0] == 'n') || (useERT[0] == 'N')) {
@@ -2199,13 +1616,7 @@ int vrpn_Generic_Server_Object::setup_Tracker_Flock (char * & pch, char * line, 
             "%s (%d sensors, on port %s, baud %d) %s ERT\n",
             s2, i1, s3, i2, buseERT ? "with" : "without");
   }
-  if ( (trackers[num_trackers] =
-          new vrpn_Tracker_Flock (s2, connection, i1, s3, i2, 1, buseERT, invertQuaternion, hemi_id)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Tracker_Flock\n");
-    return -1;
-  } else {
-    num_trackers++;
-  }
+  _devices.add(new vrpn_Tracker_Flock (s2, connection, i1, s3, i2, 1, buseERT, invertQuaternion, hemi_id));
 
   return 0;
 }
@@ -2249,26 +1660,14 @@ int vrpn_Generic_Server_Object::setup_Tracker_Flock_Parallel (char * & pch, char
     }
   }
 
-  // Make sure there's room for a new tracker
-  if (num_trackers >= VRPN_GSO_MAX_TRACKERS) {
-    fprintf (stderr, "Too many trackers in config file");
-    return -1;
-  }
-
   // Open the tracker
   invertQuaternion = (i3 != 0);
   if (verbose)
     printf ("Opening vrpn_Tracker_Flock_Parallel: "
             "%s (%d sensors, on port %s, baud %d)\n",
             s2, i1, s3, i2);
-  if ( (trackers[num_trackers] =
-          new vrpn_Tracker_Flock_Parallel (s2, connection, i1, s3, i2,
-              rgs, invertQuaternion)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Tracker_Flock_Parallel\n");
-    return -1;
-  } else {
-    num_trackers++;
-  }
+  _devices.add(new vrpn_Tracker_Flock_Parallel (s2, connection, i1, s3, i2,
+               rgs, invertQuaternion));
 
   return 0;
 }
@@ -2287,23 +1686,11 @@ int vrpn_Generic_Server_Object::setup_Tracker_NULL (char * & pch, char * line, F
     return -1;
   }
 
-  // Make sure there's room for a new tracker
-  if (num_trackers >= VRPN_GSO_MAX_TRACKERS) {
-    fprintf (stderr, "Too many trackers in config file");
-    return -1;
-  }
-
   // Open the tracker
   if (verbose) printf (
       "Opening vrpn_Tracker_NULL: %s with %d sensors, rate %f\n",
       s2, i1, f1);
-  if ( (trackers[num_trackers] =
-          new vrpn_Tracker_NULL (s2, connection, i1, f1)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Tracker_NULL\n");
-    return -1;
-  } else {
-    num_trackers++;
-  }
+  _devices.add(new vrpn_Tracker_NULL (s2, connection, i1, f1));
 
   return 0;
 }
@@ -2322,22 +1709,10 @@ int vrpn_Generic_Server_Object::setup_Button_Python (char * & pch, char * line, 
     return -1;
   }
 
-  // Make sure there's room for a new button
-  if (num_buttons >= VRPN_GSO_MAX_BUTTONS) {
-    fprintf (stderr, "Too many buttons in config file");
-    return -1;
-  }
-
   // Open the button
   if (verbose) printf (
       "Opening vrpn_Button_Python: %s on port %d\n", s2, i1);
-  if ( (buttons[num_buttons] =
-          new vrpn_Button_Python (s2, connection, i1, i2)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Button_Python\n");
-    return -1;
-  } else {
-    num_buttons++;
-  }
+  _devices.add(new vrpn_Button_Python (s2, connection, i1, i2));
 
   return 0;
 
@@ -2359,12 +1734,6 @@ int vrpn_Generic_Server_Object::setup_Button_SerialMouse (char * & pch, char * l
     return -1;
   }
 
-  // Make sure there's room for a new button
-  if (num_buttons >= VRPN_GSO_MAX_BUTTONS) {
-    fprintf (stderr, "Too many buttons in config file");
-    return -1;
-  }
-
   if (strcmp (s4, "mousesystems") == 0) {
     mType = MOUSESYSTEMS;
   } else if (strcmp (s4, "3button") == 0) {
@@ -2380,13 +1749,7 @@ int vrpn_Generic_Server_Object::setup_Button_SerialMouse (char * & pch, char * l
   if (verbose) {
     printf ("Opening vrpn_SerialMouse_Button: %s on port %s\n", s2, s3);
   }
-  if ( (buttons[num_buttons] =
-          new vrpn_Button_SerialMouse (s2, connection, s3, 1200, mType)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Button_SerialMouse\n");
-    return -1;
-  } else {
-    num_buttons++;
-  }
+  _devices.add(new vrpn_Button_SerialMouse (s2, connection, s3, 1200, mType));
   return 0;
 }
 
@@ -2404,23 +1767,11 @@ int vrpn_Generic_Server_Object::setup_Button_PinchGlove (char* &pch, char *line,
     return -1;
   }
 
-  // Make sure there's room for a new button
-  if (num_buttons >= VRPN_GSO_MAX_BUTTONS) {
-    fprintf (stderr, "vrpn_Button_PinchGlove: Too many buttons in config file");
-    return -1;
-  }
-
   // Open the button
   if (verbose) {
     printf ("Opening vrpn_Button_PinchGlove: %s on port %s at %d baud\n", name, port, baud);
   }
-  if ( (buttons[num_buttons] = new vrpn_Button_PinchGlove (name, connection, port, baud))
-       == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Button_PinchGlove\n");
-    return -1;
-  } else {
-    num_buttons++;
-  }
+  _devices.add(new vrpn_Button_PinchGlove (name, connection, port, baud));
 
   return 0;
 
@@ -2429,50 +1780,39 @@ int vrpn_Generic_Server_Object::setup_Button_PinchGlove (char* &pch, char *line,
 //================================
 int vrpn_Generic_Server_Object::setup_DevInput (char * & pch, char * line, FILE * config_file) {
   char s2 [LINESIZE], s3 [LINESIZE] , s4 [LINESIZE];
-    int int_param = 0;
-    next();
+  int int_param = 0;
+  next();
 
-    // Get the arguments (class, dev_input_name)
-    if (sscanf(pch,"%511s \"%[^\"]\" %s %d",s2, s3, s4, &int_param) != 4) {
-        if (sscanf(pch,"%511s \"%[^\"]\" %s",s2, s3, s4) != 3) {
-            fprintf(stderr,"Bad vrpn_DevInput line: %s\n",line);
-	    return -1;
-	}
+  // Get the arguments (class, dev_input_name)
+  if (sscanf(pch,"%511s \"%[^\"]\" %s %d",s2, s3, s4, &int_param) != 4) {
+    if (sscanf(pch,"%511s \"%[^\"]\" %s",s2, s3, s4) != 3) {
+      fprintf(stderr,"Bad vrpn_DevInput line: %s\n",line);
+      return -1;
     }
+  }
 
 #ifdef VRPN_USE_DEV_INPUT
-    vrpn_DevInput * dev_input;
+  vrpn_DevInput * dev_input;
 
-    // Make sure there's room for a new dev_input
-    if (num_dev_inputs >= VRPN_GSO_MAX_DEV_INPUTS) {
-        fprintf(stderr,"Too many dev_inputs (mice) in config file");
-        return -1;
-    }
+  // Open the box
+  if (verbose)
+    printf("Opening vrpn_DevInput: %s\n",s2);
 
-    // Open the box
-    if (verbose)
-        printf("Opening vrpn_DevInput: %s\n",s2);
-
-    try {
-      dev_input = new vrpn_DevInput(s2, connection, s3, s4, int_param);
-    }
-    catch (char *&error) {
-        fprintf( stderr, "could not create vrpn_DevInput : %s\n", error );
-	return -1;
-    }
-    catch (...) {
-	fprintf( stderr, "could not create vrpn_DevInput\n" );
-	return -1;
-    }
-    if (NULL == dev_input) {
-        fprintf(stderr,"Can't create new vrpn_DevInput\n");
-        return -1;
-    }
-    dev_inputs[num_dev_inputs++] = dev_input;
-    return 0;
-#else
-    fprintf(stderr,"vrpn_DevInput support not compiled in\n");
+  try {
+    _devices.add(new vrpn_DevInput(s2, connection, s3, s4, int_param));
+  }
+  catch (char *&error) {
+    fprintf( stderr, "could not create vrpn_DevInput : %s\n", error );
     return -1;
+  }
+  catch (...) {
+    fprintf( stderr, "could not create vrpn_DevInput\n" );
+    return -1;
+  }
+  return 0;
+#else
+  fprintf(stderr,"vrpn_DevInput support not compiled in\n");
+  return -1;
 #endif
 }
 
@@ -2490,27 +1830,15 @@ int vrpn_Generic_Server_Object::setup_Joylin (char * & pch, char * line, FILE * 
   }
 
 #ifdef VRPN_USE_JOYLIN
-  // Make sure there's room for a new joystick server
-  if (num_analogs >= VRPN_GSO_MAX_ANALOG) {
-    fprintf (stderr, "Too many analog devices in config file");
-    return -1;
-  }
-
   // Open the joystick server
   if (verbose) {
     printf ("Opening vrpn_Joylin: %s on port %s\n", s2, s3);
   }
-  if ( (analogs[num_analogs] =
-          new vrpn_Joylin (s2, connection, s3)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Joylin\n");
-    return -1;
-  } else {
-    num_analogs++;
-  }
+  _devices.add(new vrpn_Joylin (s2, connection, s3));
   return 0;
 #else
-    fprintf(stderr,"vrpn_Joylin support not compiled in\n");
-    return -1;
+  fprintf(stderr,"vrpn_Joylin support not compiled in\n");
+  return -1;
 #endif
 }
 
@@ -2530,23 +1858,12 @@ int vrpn_Generic_Server_Object::setup_Joywin32 (char * & pch, char * line, FILE 
     return -1;
   }
 #if defined(_WIN32)
-  // Make sure there's room for a new joystick server
-  if (num_Win32Joys >= VRPN_GSO_MAX_WIN32JOYS) {
-    fprintf (stderr, "Too many win32 joysticks devices in config file");
-    return -1;
-  }
 
   // Open the joystick server
   if (verbose) {
     printf ("Opening vrpn_Joywin32: %s (device %d), baud rate:%d, mode:%d, dead zone:%d\n", s2, joyId, readRate, mode, deadZone);
   }
-  if ( (win32joys[num_Win32Joys] =
-          new vrpn_Joywin32 (s2, connection, joyId, readRate, mode, deadZone)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Joywin32\n");
-    return -1;
-  } else {
-    num_Win32Joys++;
-  }
+  _devices.add(new vrpn_Joywin32 (s2, connection, joyId, readRate, mode, deadZone));
   return 0;
 #else
   fprintf (stderr, "Joywin32 is for use under Windows only");
@@ -2566,21 +1883,11 @@ int vrpn_Generic_Server_Object::setup_Tng3 (char * & pch, char * line, FILE * co
     fprintf (stderr, "Bad vrpn_Tng3 line: %s\n", line);
     return -1;
   }
-  // Make sure there's room for a new box
-  if (num_tng3s >= VRPN_GSO_MAX_TNG3S) {
-    fprintf (stderr, "Too many Tng3 boxes in config file");
-    return -1;
-  }
   // Open the box
   if (verbose)
     printf ("Opening vrpn_Tng3: %s on port %s, baud %d, %d digital, "
             " %d analog\n", s2, s3, 19200, i1, i2);
-  tng3 = new vrpn_Tng3 (s2, connection, s3, 19200, i1, i2);
-  if (NULL == tng3) {
-    fprintf (stderr, "Can't create new vrpn_Tng3\n");
-    return -1;
-  }
-  tng3s[num_tng3s++] = tng3;
+  _devices.add(new vrpn_Tng3 (s2, connection, s3, 19200, i1, i2));
   return 0;
 }
 
@@ -2597,19 +1904,13 @@ int vrpn_Generic_Server_Object::setup_Mouse (char * & pch, char * line, FILE * c
     return -1;
   }
 
-  // Make sure there's room for a new mouse
-  if (num_mouses >= VRPN_GSO_MAX_MOUSES) {
-    fprintf (stderr, "Too many mouses (mice) in config file");
-    return -1;
-  }
-
   // Open the box
   if (verbose) {
     printf ("Opening vrpn_Mouse: %s\n", s2);
   }
 
   try {
-    mouse = new vrpn_Mouse (s2, connection);
+    _devices.add(new vrpn_Mouse (s2, connection));
   } catch (...) {
     fprintf (stderr, "could not create vrpn_Mouse\n");
 #ifdef linux
@@ -2618,11 +1919,6 @@ int vrpn_Generic_Server_Object::setup_Mouse (char * & pch, char * line, FILE * c
 #endif
     return -1;
   }
-  if (NULL == mouse) {
-    fprintf (stderr, "Can't create new vrpn_Mouse\n");
-    return -1;
-  }
-  mouses[num_mouses++] = mouse;
   return 0;
 }
 
@@ -2643,21 +1939,11 @@ int vrpn_Generic_Server_Object::setup_Tracker_Crossbow (char * & pch, char *line
     return -1;
   }
 
-  if (num_trackers >= VRPN_GSO_MAX_TRACKERS) {
-    fprintf (stderr, "Too many trackers in config file");
-    return -1;
-  }
-
   if (verbose)
     printf ("Opening vrpn_Tracker_Crossbow: %s on %s with baud %ld, G-range %f, and A-range %f\n",
             name, port, baud, gRange, aRange);
 
-  if (! (trackers[num_trackers] = new vrpn_Tracker_Crossbow (name, connection, port, baud, gRange, aRange))) {
-    fprintf (stderr, "Can't create new vrpn_Tracker_Crossbow\n");
-    return -1;
-  } else {
-    num_trackers++;
-  }
+  _devices.add(new vrpn_Tracker_Crossbow (name, connection, port, baud, gRange, aRange));
 
   return 0;
 }
@@ -2675,11 +1961,6 @@ int vrpn_Generic_Server_Object::setup_3DMicroscribe (char * & pch, char * line, 
     fprintf (stderr, "Bad vrpn_3dMicroscribe line: %s\n", line);
     return -1;
   }
-  // Make sure there's room for a new tracker
-  if (num_trackers >= VRPN_GSO_MAX_TRACKERS) {
-    fprintf (stderr, "Too many Trackers in config file");
-    return -1;
-  }
 
   // Open the device
   if (verbose) {
@@ -2687,13 +1968,7 @@ int vrpn_Generic_Server_Object::setup_3DMicroscribe (char * & pch, char * line, 
             name, device, baud_rate);
   }
 #ifdef VRPN_USE_MICROSCRIBE
-  if ( (trackers[num_trackers] =
-          new vrpn_3DMicroscribe (name, connection, device, baud_rate, x, y, z, s)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_3DMicroscribe\n");
-    return -1;
-  } else {
-    num_trackers++;
-  }
+  _devices.add(new vrpn_3DMicroscribe (name, connection, device, baud_rate, x, y, z, s));
 #else
   fprintf (stderr, "3DMicroscribe support not configured in VRPN, edit vrpn_Configure.h and rebuild\n");
 #endif
@@ -2712,7 +1987,6 @@ int vrpn_Generic_Server_Object::setup_Tracker_InterSense (char * &pch, char *lin
   char s5 [LINESIZE];
   char s6 [LINESIZE];
   int numparms;
-  vrpn_Tracker_InterSense	*mytracker;
   int do_is900_timing = 0;
   int reset_at_start = 0;		// nahon@virtools.com
 
@@ -2786,12 +2060,6 @@ int vrpn_Generic_Server_Object::setup_Tracker_InterSense (char * &pch, char *lin
     }
   }
 
-  // Make sure there's room for a new tracker
-  if (num_trackers >= VRPN_GSO_MAX_TRACKERS) {
-    fprintf (stderr, "Too many trackers in config file");
-    return -1;
-  }
-
   // If the last character in the line is a backslash, '\', then
   // the following line is an additional command to send to the
   // Fastrak at reset time. So long as we find lines with slashes
@@ -2835,80 +2103,76 @@ int vrpn_Generic_Server_Object::setup_Tracker_InterSense (char * &pch, char *lin
     printf ("Opening vrpn_Tracker_InterSense: %s on port %s\n",
             trackerName, commStr);
 
-  if ( (trackers[num_trackers] = mytracker =
-                                   new vrpn_Tracker_InterSense (trackerName, connection, commPort, rcmd, do_is900_timing,
-                                       reset_at_start)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Tracker_InterSense\n");
-    return -1;
+  vrpn_Tracker_InterSense	* mytracker =
+    new vrpn_Tracker_InterSense (trackerName, connection, commPort, rcmd, do_is900_timing,
+                                       reset_at_start));
 
-  } else {
-    // If the last character in the line is a front slash, '/', then
-    // the following line is a command to add a Wand or Stylus to one
-    // of the sensors on the tracker.  Read and parse the line after,
-    // then add the devices needed to support.  Each line has two
-    // arguments, the string name of the devices and the integer
-    // sensor number (starting with 0) to attach the device to.
-    while (line[strlen (line) - 2] == '/') {
-      char lineCommand[LINESIZE];
-      char lineName[LINESIZE];
-      int	 lineSensor;
+  // If the last character in the line is a front slash, '/', then
+  // the following line is a command to add a Wand or Stylus to one
+  // of the sensors on the tracker.  Read and parse the line after,
+  // then add the devices needed to support.  Each line has two
+  // arguments, the string name of the devices and the integer
+  // sensor number (starting with 0) to attach the device to.
+  while (line[strlen (line) - 2] == '/') {
+    char lineCommand[LINESIZE];
+    char lineName[LINESIZE];
+    int	 lineSensor;
 
-      // Read the next line
-      if (fgets (line, LINESIZE, config_file) == NULL) {
-        fprintf (stderr, "Ran past end of config file in InterSense description\n");
-        return -1;
-      }
-
-      // Parse the line.  Both "Wand" and "Stylus" lines start with the name and sensor #
-      if (sscanf (line, "%511s%511s%d", lineCommand, lineName, &lineSensor) != 3) {
-        fprintf (stderr, "Bad line in Wand/Stylus description for InterSense (%s)\n", line);
-        delete trackers[num_trackers];
-        return -1;
-      }
-
-      // See which command it is and act accordingly
-      if (strcmp (lineCommand, "Wand") == 0) {
-        double c0min, c0lo0, c0hi0, c0max;
-        double c1min, c1lo0, c1hi0, c1max;
-
-        // Wand line has additional scale/clip information; read it in
-        if (sscanf (line, "%511s%511s%d%lf%lf%lf%lf%lf%lf%lf%lf", lineCommand, lineName, &lineSensor,
-                    &c0min, &c0lo0, &c0hi0, &c0max,
-                    &c1min, &c1lo0, &c1hi0, &c1max) != 11) {
-          fprintf (stderr, "Bad line in Wand description for InterSense (%s)\n", line);
-          delete trackers[num_trackers];
-          return -1;
-        }
-
-        if (mytracker->add_is900_analog (lineName, lineSensor, c0min, c0lo0, c0hi0, c0max,
-                                         c1min, c1lo0, c1hi0, c1max)) {
-          fprintf (stderr, "Cannot set Wand analog for InterSense (%s)\n", line);
-          delete trackers[num_trackers];
-          return -1;
-        }
-        if (mytracker->add_is900_button (lineName, lineSensor, 6)) {
-          fprintf (stderr, "Cannot set Wand buttons for InterSense (%s)\n", line);
-          delete trackers[num_trackers];
-          return -1;
-        }
-        printf (" ...added Wand (%s) to sensor %d\n", lineName, lineSensor);
-
-      } else if (strcmp (lineCommand, "Stylus") == 0) {
-        if (mytracker->add_is900_button (lineName, lineSensor, 2)) {
-          fprintf (stderr, "Cannot set Stylus buttons for InterSense (%s)\n", line);
-          delete trackers[num_trackers];
-          return -1;
-        }
-        printf (" ...added Stylus (%s) to sensor %d\n", lineName, lineSensor);
-      } else {
-        fprintf (stderr, "Unknown command in Wand/Stylus description for InterSense (%s)\n", lineCommand);
-        delete trackers[num_trackers];
-        return -1;
-      }
+    // Read the next line
+    if (fgets (line, LINESIZE, config_file) == NULL) {
+      fprintf (stderr, "Ran past end of config file in InterSense description\n");
+      delete mytracker;
     }
 
-    num_trackers++;
+    // Parse the line.  Both "Wand" and "Stylus" lines start with the name and sensor #
+    if (sscanf (line, "%511s%511s%d", lineCommand, lineName, &lineSensor) != 3) {
+      fprintf (stderr, "Bad line in Wand/Stylus description for InterSense (%s)\n", line);
+      delete mytracker;
+      return -1;
+    }
+
+    // See which command it is and act accordingly
+    if (strcmp (lineCommand, "Wand") == 0) {
+      double c0min, c0lo0, c0hi0, c0max;
+      double c1min, c1lo0, c1hi0, c1max;
+
+      // Wand line has additional scale/clip information; read it in
+      if (sscanf (line, "%511s%511s%d%lf%lf%lf%lf%lf%lf%lf%lf", lineCommand, lineName, &lineSensor,
+                  &c0min, &c0lo0, &c0hi0, &c0max,
+                  &c1min, &c1lo0, &c1hi0, &c1max) != 11) {
+        fprintf (stderr, "Bad line in Wand description for InterSense (%s)\n", line);
+        delete mytracker;
+        return -1;
+      }
+
+      if (mytracker->add_is900_analog (lineName, lineSensor, c0min, c0lo0, c0hi0, c0max,
+                                       c1min, c1lo0, c1hi0, c1max)) {
+        fprintf (stderr, "Cannot set Wand analog for InterSense (%s)\n", line);
+        delete mytracker;
+        return -1;
+      }
+      if (mytracker->add_is900_button (lineName, lineSensor, 6)) {
+        fprintf (stderr, "Cannot set Wand buttons for InterSense (%s)\n", line);
+        delete mytracker;
+        return -1;
+      }
+      printf (" ...added Wand (%s) to sensor %d\n", lineName, lineSensor);
+
+    } else if (strcmp (lineCommand, "Stylus") == 0) {
+      if (mytracker->add_is900_button (lineName, lineSensor, 2)) {
+        fprintf (stderr, "Cannot set Stylus buttons for InterSense (%s)\n", line);
+        delete mytracker;
+        return -1;
+      }
+      printf (" ...added Stylus (%s) to sensor %d\n", lineName, lineSensor);
+    } else {
+      fprintf (stderr, "Unknown command in Wand/Stylus description for InterSense (%s)\n", lineCommand);
+      delete mytracker;
+      return -1;
+    }
   }
+
+  _devices.add(mytracker);
 
 #else
   fprintf (stderr, "vrpn_server: Can't open Intersense native server: VRPN_INCLUDE_INTERSENSE not defined in vrpn_Configure.h!\n");
@@ -2932,24 +2196,12 @@ int vrpn_Generic_Server_Object::setup_DirectXFFJoystick (char * & pch, char * li
     return -1;
   }
 
-  // Make sure there's room for a new joystick
-  if (num_DirectXJoys >= VRPN_GSO_MAX_DIRECTXJOYS) {
-    fprintf (stderr, "Too many Direct X FF Joysticks in config file");
-    return -1;
-  }
-
   // Open the joystick
   if (verbose) {
     printf ("Opening vrpn_DirectXFFJoystick: %s, read rate %g, force rate %g\n",
             s2, f1, f2);
   }
-  if ( (DirectXJoys[num_DirectXJoys] =
-          new vrpn_DirectXFFJoystick (s2, connection, f1, f2)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_DirectXFFJoystick\n");
-    return -1;
-  } else {
-    num_DirectXJoys++;
-  }
+  _devices.add(new vrpn_DirectXFFJoystick (s2, connection, f1, f2));
 
   return 0;
 #else
@@ -2972,22 +2224,11 @@ int vrpn_Generic_Server_Object::setup_RumblePad (char * & pch, char * line, FILE
     return -1;
   }
 
-  // Make sure there's room for a new joystick
-  if (num_RumblePads >= VRPN_GSO_MAX_RUMBLEPADS) {
-    fprintf (stderr, "Too many Direct X Rumble Pads in config file");
-    return -1;
-  }
-
   // Open the joystick
   if (verbose) {
     printf ("Opening vrpn_DirectXRumblePad: %s\n", s2);
   }
-  if ( (RumblePads[num_RumblePads] = new vrpn_DirectXRumblePad (s2, connection)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_DirectXRumblePad\n");
-    return -1;
-  } else {
-    num_RumblePads++;
-  }
+  _devices.add(new vrpn_DirectXRumblePad (s2, connection));
 
   return 0;
 #else
@@ -3010,22 +2251,11 @@ int vrpn_Generic_Server_Object::setup_XInputPad (char * & pch, char * line, FILE
     return -1;
   }
 
-  // Make sure there's room for a new joystick
-  if (num_XInputPads >= VRPN_GSO_MAX_XINPUTPADS) {
-    fprintf (stderr, "Too many XInput gamepads in config file");
-    return -1;
-  }
-
   // Open the joystick
   if (verbose) {
     printf ("Opening vrpn_XInputGamepad: %s\n", s2);
   }
-  if ( (XInputPads[num_XInputPads] = new vrpn_XInputGamepad (s2, connection, controller)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_XInputGamepad\n");
-    return -1;
-  } else {
-    num_XInputPads++;
-  }
+  _devices.add(new vrpn_XInputGamepad (s2, connection, controller));
 
   return 0;
 #else
@@ -3046,24 +2276,12 @@ int vrpn_Generic_Server_Object::setup_GlobalHapticsOrb (char * & pch, char * lin
     return -1;
   }
 
-  // Make sure there's room for a new orb
-  if (num_GlobalHapticsOrbs >= VRPN_GSO_MAX_GLOBALHAPTICSORBS) {
-    fprintf (stderr, "Too many Global Haptics Orbs in config file");
-    return -1;
-  }
-
   // Open the orb
   if (verbose) {
     printf ("Opening vrpn_GlobalHapticsOrb: %s, port %s, baud rate %d\n",
             s2, s3, i1);
   }
-  if ( (ghos[num_GlobalHapticsOrbs] =
-          new vrpn_GlobalHapticsOrb (s2, connection, s3, i1)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_GlobalHapticsOrb\n");
-    return -1;
-  } else {
-    num_GlobalHapticsOrbs++;
-  }
+  _devices.add(new vrpn_GlobalHapticsOrb (s2, connection, s3, i1));
 
   return 0;
 }
@@ -3082,33 +2300,12 @@ int vrpn_Generic_Server_Object::setup_ADBox (char* &pch, char *line, FILE *confi
     return -1;
   }
 
-  // Make sure there's room for a new button
-  if (num_buttons >= VRPN_GSO_MAX_BUTTONS) {
-    fprintf (stderr, "vrpn_ADBox : Too many buttons in config file");
-    return -1;
-  }
-
-  // Make sure there's room for a new analog
-  if (num_analogs >= VRPN_GSO_MAX_ANALOG) {
-    fprintf (stderr, "vrpn_ADBox : Too many analogs in config file");
-    return -1;
-  }
-
   // Open the button
   if (verbose) {
     printf ("Opening vrpn_ADBox: %s on port %s at %d baud\n", name, port, baud);
   }
 
-  if ( (buttons[num_buttons] = new vrpn_ADBox (name, connection, port, baud))
-       == NULL) {
-    fprintf (stderr, "Can't create new vrpn_ADBox\n");
-    return -1;
-  } else {
-
-    analogs[num_analogs] = (vrpn_Analog*) buttons[num_buttons];
-    num_buttons++;
-    num_analogs++;
-  }
+  _devices.add(new vrpn_ADBox (name, connection, port, baud));
 
   return 0;
 }
@@ -3126,25 +2323,12 @@ int vrpn_Generic_Server_Object::setup_VPJoystick (char* &pch, char *line, FILE *
     return -1;
   }
 
-  // Make sure there's room for a new button
-  if (num_buttons >= VRPN_GSO_MAX_BUTTONS) {
-    fprintf (stderr, "vrpn_ADBox : Too many buttons in config file");
-    return -1;
-  }
-
   // Open the button
   if (verbose) {
     printf ("Opening vrpn_VPJoystick: %s on port %s at %d baud\n", name, port, baud);
   }
 
-  if ( (buttons[num_buttons] = new vrpn_VPJoystick (name, connection, port, baud))
-       == NULL) {
-    fprintf (stderr, "Can't create new vrpn_VPJoystick\n");
-    return -1;
-  } else {
-
-    num_buttons++;
-  }
+  _devices.add(new vrpn_VPJoystick (name, connection, port, baud));
 
   return 0;
 }
@@ -3203,12 +2387,7 @@ int vrpn_Generic_Server_Object::setup_Tracker_JsonNet (char* &pch, char* line, F
     printf ("Opening vrpn_Tracker_JsonNet: %s at port %d\n", s2, port);
   }
 
-  if ( (trackers[num_trackers] = new vrpn_Tracker_JsonNet (s2, connection, port)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Tracker_JsonNet\n");
-    return -1;
-  }
-
-  num_trackers++;
+  _devices.add(new vrpn_Tracker_JsonNet (s2, connection, port));
 
   return 0;
 }
@@ -3224,7 +2403,7 @@ int vrpn_Generic_Server_Object::setup_DTrack (char* &pch, char* line, FILE* conf
   int dtrackPort, isok;
   float timeToReachJoy;
   int nob, nof, nidbf;
-  int idbf[VRPN_GSO_MAX_TRACKERS];
+  int idbf[512];
   bool actTracing, act3DOFout;
 
 #ifndef sgi
@@ -3241,13 +2420,6 @@ int vrpn_Generic_Server_Object::setup_DTrack (char* &pch, char* line, FILE* conf
 
   if (count < 2) {
     fprintf (stderr, "Bad vrpn_Tracker_DTrack line: %s\n", line);
-    return -1;
-  }
-
-  // Make sure there's room for a new one:
-
-  if (num_DTracks >= VRPN_GSO_MAX_DTRACKS) {
-    fprintf (stderr, "Too many DTracks in config file");
     return -1;
   }
 
@@ -3334,17 +2506,12 @@ int vrpn_Generic_Server_Object::setup_DTrack (char* &pch, char* line, FILE* conf
     printf ("\n");
   }
 
-  if ( (DTracks[num_DTracks] = new vrpn_Tracker_DTrack (s2, connection, dtrackPort, timeToReachJoy,
-      nob, nof, pidbf, actTracing)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Tracker_DTrack\n");
-    return -1;
-  }
-
-  num_DTracks++;
+  _devices.add(new vrpn_Tracker_DTrack (s2, connection, dtrackPort, timeToReachJoy,
+      nob, nof, pidbf, actTracing));
 
   return 0;
 #else
-  fprintf(stderr, "vrpn_Tracker_DTrack not supported on this arhitecture\n");
+  fprintf(stderr, "vrpn_Tracker_DTrack not supported on this architecture\n");
   return -1;
 #endif
 }
@@ -3407,12 +2574,6 @@ int vrpn_Generic_Server_Object::setup_Poser_Analog (char * & pch, char * line, F
     return -1;
   }
 
-  // Make sure there's room for a new poser
-  if (num_posers >= VRPN_GSO_MAX_POSER) {
-    fprintf (stderr, "Too many posers in config file");
-    return -1;
-  }
-
   if (verbose) {
     printf ("Opening vrpn_Poser_Analog: "
             "%s\n", s2);
@@ -3446,15 +2607,7 @@ int vrpn_Generic_Server_Object::setup_Poser_Analog (char * & pch, char * line, F
     return -1;
   }
 
-  posers[num_posers] = new
-  vrpn_Poser_Analog (s2, connection, &p, i1 != 0);
-
-  if (!posers[num_posers]) {
-    fprintf (stderr, "Can't create new vrpn_Poser_Analog\n");
-    return -1;
-  } else {
-    num_posers++;
-  }
+  _devices.add(new vrpn_Poser_Analog (s2, connection, &p, i1 != 0));
 
   return 0;
 }
@@ -3470,23 +2623,11 @@ int vrpn_Generic_Server_Object::setup_nikon_controls (char * & pch, char * line,
     return -1;
   }
 
-  // Make sure there's room for a new server
-  if (num_analogs >= VRPN_GSO_MAX_ANALOG) {
-    fprintf (stderr, "Too many analog devices in config file");
-    return -1;
-  }
-
   // Open the server
   if (verbose)
     printf ("Opening vrpn_nikon_control %s on port %s \n",
             s2, s3);
-  if ( (analogs[num_analogs] =
-          new vrpn_Nikon_Controls (s2, connection, s3)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_nikon_controls\n");
-    return -1;
-  } else {
-    num_analogs++;
-  }
+  _devices.add(new vrpn_Nikon_Controls (s2, connection, s3));
 
   return 0;
 }
@@ -3502,25 +2643,12 @@ int vrpn_Generic_Server_Object::setup_Poser_Tek4662 (char * & pch, char * line, 
     return -1;
   }
 
-  // Make sure there's room for a new poser
-  if (num_posers >= VRPN_GSO_MAX_POSER) {
-    fprintf (stderr, "Too many posers in config file");
-    return -1;
-  }
-
   if (verbose) {
     printf ("Opening vrpn_Poser_Tek4662 %s on port %s at baud %d\n"
             , s2, s3, i1);
   }
 
-  posers[num_posers] = new vrpn_Poser_Tek4662 (s2, connection, s3, i1);
-
-  if (!posers[num_posers]) {
-    fprintf (stderr, "Can't create new vrpn_Poser_Tek4662\n");
-    return -1;
-  } else {
-    num_posers++;
-  }
+  _devices.add(new vrpn_Poser_Tek4662 (s2, connection, s3, i1));
 
   return 0;
 }
@@ -3556,12 +2684,6 @@ int vrpn_Generic_Server_Object::setup_Atmel (char* &pch, char *line, FILE *confi
         printf ("baud: %d\n", baud);
         printf ("channel_count: %d\n", channel_count);
       }
-    }
-
-    // Make sure there's room for a new analog
-    if (num_analogs >= VRPN_GSO_MAX_ANALOG) {
-      fprintf (stderr, "vrpn_Atmel : Too many analogs in config file");
-      return -1;
     }
 
     setup_vrpn_Atmel::channel_count = channel_count;
@@ -3604,33 +2726,21 @@ int vrpn_Generic_Server_Object::setup_Atmel (char* &pch, char *line, FILE *confi
   if (channel == -1) {
 
     // here we use a factory interface because a lot of init things have to be done
-    vrpn_Analog * self = vrpn_Atmel::Create (name,
+    _devices.add(vrpn_Atmel::Create (name,
                          connection,
                          port,
                          baud,
                          channel_count ,
-                         setup_vrpn_Atmel::channel_mode);
+                         setup_vrpn_Atmel::channel_mode));
 
     // reset the params so that another atmel can be configured
     setup_vrpn_Atmel::channel_count = 0;
 
-    // check if instance has been created
-    if (self == NULL) {
+    printf ("\nAtmel %s started.\n\n", name);
 
-      fprintf (stderr, "Can't create new vrpn_Atmel\n\n");
+    // the Analog_Output is handled implict by analog like done in Zaber
 
-      return -1;
-    } else {
-
-      printf ("\nAtmel %s started.\n\n", name);
-
-      // the Analog_Output is handled implict by analog like done in Zaber
-
-      analogs[num_analogs] = (vrpn_Analog *) self;
-      num_analogs++;
-
-      return 0;
-    }
+    return 0;
   }
 
   // check if it is a valid channel
@@ -3687,17 +2797,6 @@ int vrpn_Generic_Server_Object::setup_Event_Mouse (char* &pch, char *line, FILE 
     return -1;
   }
 
-  // Make sure there's room for a new button
-  if (num_buttons >= VRPN_GSO_MAX_BUTTONS) {
-    fprintf (stderr, "vrpn_Event_Mouse : Too many buttons in config file");
-    return -1;
-  }
-
-  // Make sure there's room for a new analog
-  if (num_analogs >= VRPN_GSO_MAX_ANALOG) {
-    fprintf (stderr, "vrpn_Event_Mouse : Too many analogs in config file");
-    return -1;
-  }
 
   // Open the button
   if (verbose) {
@@ -3705,11 +2804,7 @@ int vrpn_Generic_Server_Object::setup_Event_Mouse (char* &pch, char *line, FILE 
     printf ("Opening vrpn_Event_Mouse: %s on port %s\n", name, port);
   }
 
-  buttons[num_buttons] = new vrpn_Event_Mouse (name, connection, port);
-
-  analogs[num_analogs] = (vrpn_Analog*) buttons[num_buttons];
-  num_buttons++;
-  num_analogs++;
+  _devices.add(new vrpn_Event_Mouse (name, connection, port));
 
   return 0;
 }
@@ -3728,14 +2823,7 @@ int vrpn_Generic_Server_Object::setup_inertiamouse (char * & pch, char * line, F
 
   // Get the arguments (class, magellan_name, port, baud
   if ( (ret = sscanf (pch, "%511s%511s%d", name, port, &baud)) < 3) {
-    fprintf (stderr, "Bad vrpn_intertiamouse line: %s\n", line);
-    return -1;
-  }
-
-
-  // Make sure there's room for a new magellan
-  if (num_magellans >= VRPN_GSO_MAX_INERTIAMOUSES) {
-    fprintf (stderr, "Too many intertiamouses in config file\n");
+    fprintf (stderr, "Bad vrpn_inertiamouse line: %s\n", line);
     return -1;
   }
 
@@ -3746,16 +2834,10 @@ int vrpn_Generic_Server_Object::setup_inertiamouse (char * & pch, char * line, F
             port,
             baud);
   }
-  if (! (inertiamouses[num_inertiamouses] =
-           vrpn_inertiamouse::create (name,
+  _devices.add(vrpn_inertiamouse::create (name,
                                       connection,
                                       port,
-                                      baud))) {
-    fprintf (stderr, "Can't create new vrpn_inertiamouse\n");
-    return -1;
-  } else {
-    ++num_inertiamouses;
-  }
+                                      baud));
 
   return 0;
 }
@@ -3796,27 +2878,15 @@ int vrpn_Generic_Server_Object::setup_Analog_USDigital_A2 (char * & pch, char * 
     return -1;
   }
 
-  // Make sure there's room for a new analog
-  if (num_analogs >= VRPN_GSO_MAX_ANALOG) {
-    fprintf (stderr, "Too many Analogs in config file");
-    return -1;
-  }
-
   // Open the device
   if (verbose)
     printf (
       "Opening vrpn_Analog_USDigital_A2: %s on port %d (%u=search for port), with %d channels, reporting %s\n",
       A2name, comPort, vrpn_Analog_USDigital_A2::vrpn_Analog_USDigital_A2_FIND_PORT,
       numChannels, (reportChange == 0) ? "always" : "on change");
-  if ( (analogs[num_analogs] =
-          new vrpn_Analog_USDigital_A2 (A2name, connection, (vrpn_uint32) comPort,
+  _devices.add(new vrpn_Analog_USDigital_A2 (A2name, connection, (vrpn_uint32) comPort,
                                         (vrpn_uint32) numChannels,
-                                        (reportChange != 0))) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Analog_USDigital_A2\n");
-    return -1;
-  } else {
-    num_analogs++;
-  }
+                                        (reportChange != 0)));
 
   return 0;
 #else
@@ -3851,12 +2921,6 @@ int vrpn_Generic_Server_Object::setup_Button_NI_DIO24 (char * & pch, char * line
     return -1;
   }
 
-  // Make sure there's room for a new button
-  if (num_buttons >= VRPN_GSO_MAX_BUTTONS) {
-    fprintf (stderr, "Too many Buttons in config file");
-    return -1;
-  }
-
   //  if numChannels is wrong, use default
   if (numArgs < 2 || numChannels < 1) {
     numChannels = vrpn_Button_NI_DIO24::vrpn_Button_NI_DIO24_CHANNEL_MAX ;
@@ -3867,13 +2931,7 @@ int vrpn_Generic_Server_Object::setup_Button_NI_DIO24 (char * & pch, char * line
     printf ("Opening vrpn_Button_NI_DIO24: %s with up to %d buttons\n",
             DIO24name, numChannels);
 
-  if ( (buttons[num_buttons] =
-          new vrpn_Button_NI_DIO24 (DIO24name, connection, numChannels)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Button_NI_DIO24\n");
-    return -1;
-  } else {
-    num_buttons++;
-  }
+  _devices.add(new vrpn_Button_NI_DIO24 (DIO24name, connection, numChannels));
 
   return 0;
 #else
@@ -3899,21 +2957,8 @@ int vrpn_Generic_Server_Object::setup_Tracker_PhaseSpace (char * & pch, char * l
     return -1;
   }
 
-  // Make sure there's room for a new tracker
-  if (num_trackers >= VRPN_GSO_MAX_TRACKERS) {
-    fprintf (stderr, "Too many trackers in config file");
-    return -1;
-  }
 
   vrpn_Tracker_PhaseSpace* pstracker =  new vrpn_Tracker_PhaseSpace (trackerName, connection, device, framerate, readflag, slaveflag);
-
-  if (pstracker == NULL) {
-    fprintf (stderr, "Unable to create new vrpn_Tracker_PhaseSpace.\n");
-    return -1;
-  }
-
-  trackers[num_trackers] = pstracker;
-  num_trackers++;
 
   char tag[LINESIZE];
   int sensor = 0;
@@ -3940,6 +2985,7 @@ int vrpn_Generic_Server_Object::setup_Tracker_PhaseSpace (char * & pch, char * l
       if (strcmp ("<owl>", tag) == 0) {
         if (inTag) {
           fprintf (stderr, "Error, nested <owl> tag encountered.  Aborting...\n");
+          delete pstracker;
           return -1;
         } else {
           inTag = true;
@@ -3980,8 +3026,10 @@ int vrpn_Generic_Server_Object::setup_Tracker_PhaseSpace (char * & pch, char * l
 
   if (!pstracker->enableTracker (true)) {
     fprintf (stderr, "Error, unable to enable OWL Tracker.\n");
+    delete pstracker;
     return -1;
   }
+  _devices.add(pstracker);
 
 #else
   fprintf (stderr, "vrpn_server: Can't open PhaseSpace OWL server: VRPN_INCLUDE_PHASESPACE not defined in vrpn_Configure.h!\n");
@@ -4023,19 +3071,7 @@ int vrpn_Generic_Server_Object::setup_Tracker_NDI_Polaris (char * & pch, char * 
 
   }
 
-  // Make sure there's room for a new tracker
-  if (num_trackers >= VRPN_GSO_MAX_TRACKERS) {
-    fprintf (stderr, "Too many trackers in config file");
-    return -1;
-  }
-
-  vrpn_Tracker_NDI_Polaris* nditracker =  new vrpn_Tracker_NDI_Polaris (trackerName, connection, device, numRigidBodies, (const char **) rigidBodyFileNames);
-  if (nditracker == NULL) {
-    fprintf (stderr, "Tracker_NDI_Polaris: error initializing tracker object\n");
-    return -1;
-  }
-  trackers[num_trackers] = nditracker;
-  num_trackers++;
+  _devices.add(new vrpn_Tracker_NDI_Polaris (trackerName, connection, device, numRigidBodies, (const char **) rigidBodyFileNames));
 
   //free the .rom filename strings
   for (rbNum = 0; rbNum < numRigidBodies; rbNum++) {
@@ -4056,25 +3092,11 @@ int vrpn_Generic_Server_Object::setup_Logger (char * & pch, char * line, FILE * 
     return -1;
   }
 
-  // Make sure we don't have a full complement already.
-  if (num_loggers >= VRPN_GSO_MAX_LOGGER) {
-    fprintf (stderr, "Too many vrpn_Auxiliary_Logger_Server_Generic loggers.\n");
-    return -1;
-  }
-
   // Open the logger
   if (verbose) {
     printf ("Opening vrpn_Auxiliary_Logger_Server_Generic %s\n", s2);
   }
-  vrpn_Auxiliary_Logger_Server_Generic* logger =  new vrpn_Auxiliary_Logger_Server_Generic (s2, s3, connection);
-
-  if (logger == NULL) {
-    fprintf (stderr, "Unable to create new vrpn_Auxiliary_Logger_Server_Generic.\n");
-    return -1;
-  }
-
-  loggers[num_loggers] = logger;
-  num_loggers++;
+  _devices.add(new vrpn_Auxiliary_Logger_Server_Generic (s2, s3, connection));
 
   return 0;  // successful completion
 }
@@ -4091,25 +3113,11 @@ int vrpn_Generic_Server_Object::setup_ImageStream (char * & pch, char * line, FI
     return -1;
   }
 
-  // Make sure we don't have a full complement already.
-  if (num_imagestreams >= VRPN_GSO_MAX_IMAGE_STREAM) {
-    fprintf (stderr, "Too many vrpn_Imager_Stream_Buffer loggers.\n");
-    return -1;
-  }
-
   // Open the stream buffer
   if (verbose) {
     printf ("Opening vrpn_Imager_Stream_Buffer %s\n", s2);
   }
-  vrpn_Imager_Stream_Buffer* imagestream =  new vrpn_Imager_Stream_Buffer (s2, s3, connection);
-
-  if (imagestream == NULL) {
-    fprintf (stderr, "Unable to create new vrpn_Imager_Stream_Buffer.\n");
-    return -1;
-  }
-
-  imagestreams[num_imagestreams] = imagestream;
-  num_imagestreams++;
+  _devices.add(new vrpn_Imager_Stream_Buffer (s2, s3, connection));
 
   return 0;  // successful completion
 }
@@ -4129,26 +3137,14 @@ int vrpn_Generic_Server_Object::setup_WiiMote (char * & pch, char * line, FILE *
     return -1;
   }
 
-  // Make sure there's room for a new WiiMote
-  if (num_wiimotes >= VRPN_GSO_MAX_WIIMOTES) {
-    fprintf (stderr, "Too many WiiMotes in config file");
-    return -1;
-  }
-
   // Open the WiiMote
   if (verbose) {
     printf ("Opening vrpn_WiiMote: %s\n", s2);
   }
   if (numParms == 5) {
-    wiimotes[num_wiimotes] = new vrpn_WiiMote (s2, connection, controller, useMS, useIR, reorderBtns);
+    _devices.add(new vrpn_WiiMote (s2, connection, controller, useMS, useIR, reorderBtns));
   } else {
-    wiimotes[num_wiimotes] = new vrpn_WiiMote (s2, connection, controller, useMS, useIR, reorderBtns, sBDADDR);
-  }
-  if (wiimotes[num_wiimotes] == NULL) {
-    fprintf (stderr, "Can't create new vrpn_WiiMote\n");
-    return -1;
-  } else {
-    num_wiimotes++;
+    _devices.add(new vrpn_WiiMote (s2, connection, controller, useMS, useIR, reorderBtns, sBDADDR));
   }
 
   return 0;
@@ -4163,7 +3159,6 @@ int vrpn_Generic_Server_Object::setup_Tracker_WiimoteHead (char * & pch, char * 
   char s2[LINESIZE], s3[LINESIZE];
   float f1, f2;
   int numparms;
-  vrpn_Tracker_WiimoteHead	*mytracker;
 
   next();
 
@@ -4187,14 +3182,7 @@ int vrpn_Generic_Server_Object::setup_Tracker_WiimoteHead (char * & pch, char * 
     printf ("Opening vrpn_Tracker_WiimoteHead: %s wiimote: %s, updaterate: %f, leddistance: %f\n", s2, s3, f1, f2);
   }
 
-  mytracker = new vrpn_Tracker_WiimoteHead (s2, connection, s3, f1, f2);
-  if (mytracker == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Tracker_WiimoteHead\n");
-    return -1;
-  } else {
-    trackers[num_trackers] = mytracker;
-    num_trackers++;
-  }
+  _devices.add(new vrpn_Tracker_WiimoteHead (s2, connection, s3, f1, f2));
   return 0;
 }
 
@@ -4211,20 +3199,9 @@ int vrpn_Generic_Server_Object::setup_Freespace (char * & pch, char * line, FILE
     return -1;
   }
 
-  // Make sure there's room for a new Freespace
-  if (num_freespaces >= VRPN_GSO_MAX_FREESPACES) {
-    fprintf (stderr, "Too many Freespaces in config file");
-    return -1;
-  }
-
   // Open the Freespace if we can.
-  if ( (freespaces[num_freespaces] = vrpn_Freespace::create (s2, connection, controller,
-                                     (sendbody != 0), (senduser != 0))) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Freespace\n");
-    return -1;
-  } else {
-    num_freespaces++;
-  }
+  _devices.add(vrpn_Freespace::create (s2, connection, controller,
+                                     (sendbody != 0), (senduser != 0)));
 
   return 0;
 #else
@@ -4246,22 +3223,12 @@ int vrpn_Generic_Server_Object::setup_Xkeys_Desktop (char * & pch, char * line, 
   }
 
   // Open the Xkeys
-  // Make sure there's room for a new button
-  if (num_buttons >= VRPN_GSO_MAX_BUTTONS) {
-    fprintf (stderr, "vrpn_Xkeys_Desktop: Too many buttons in config file");
-    return -1;
-  }
 
   // Open the button
   if (verbose) {
     printf ("Opening vrpn_Xkeys_Desktop on host %s\n", s2);
   }
-  if ( (buttons[num_buttons] = new vrpn_Xkeys_Desktop (s2, connection)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Xkeys_Desktop\n");
-    return -1;
-  } else {
-    num_buttons++;
-  }
+  _devices.add(new vrpn_Xkeys_Desktop (s2, connection));
 #else
   fprintf (stderr, "vrpn_server: Can't open Xkeys: HID not compiled in.\n");
 #endif
@@ -4281,23 +3248,11 @@ int vrpn_Generic_Server_Object::setup_Xkeys_Pro (char * & pch, char * line, FILE
     return -1;
   }
 
-  // Open the Xkeys
-  // Make sure there's room for a new button
-  if (num_buttons >= VRPN_GSO_MAX_BUTTONS) {
-    fprintf (stderr, "vrpn_Xkeys_Pro: Too many buttons in config file");
-    return -1;
-  }
-
   // Open the button
   if (verbose) {
     printf ("Opening vrpn_Xkeys_Pro on host %s\n", s2);
   }
-  if ( (buttons[num_buttons] = new vrpn_Xkeys_Pro (s2, connection)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Xkeys_Pro\n");
-    return -1;
-  } else {
-    num_buttons++;
-  }
+  _devices.add(new vrpn_Xkeys_Pro (s2, connection));
 #else
   fprintf (stderr, "vrpn_server: Can't open Xkeys: HID not compiled in.\n");
 #endif
@@ -4318,22 +3273,12 @@ int vrpn_Generic_Server_Object::setup_Xkeys_Joystick (char * & pch, char * line,
   }
 
   // Open the Xkeys
-  // Make sure there's room for a new button
-  if (num_buttons >= VRPN_GSO_MAX_BUTTONS) {
-    fprintf (stderr, "vrpn_Xkeys_Joystick: Too many buttons in config file");
-    return -1;
-  }
 
   // Open the button
   if (verbose) {
     printf ("Opening vrpn_Xkeys_Joystick on host %s\n", s2);
   }
-  if ( (buttons[num_buttons] = new vrpn_Xkeys_Joystick (s2, connection)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Xkeys_Joystick\n");
-    return -1;
-  } else {
-    num_buttons++;
-  }
+  _devices.add(new vrpn_Xkeys_Joystick (s2, connection));
 #else
   fprintf (stderr, "vrpn_server: Can't open Xkeys: HID not compiled in.\n");
 #endif
@@ -4354,22 +3299,12 @@ int vrpn_Generic_Server_Object::setup_Xkeys_Jog_And_Shuttle (char * & pch, char 
   }
 
   // Open the Xkeys
-  // Make sure there's room for a new button
-  if (num_buttons >= VRPN_GSO_MAX_BUTTONS) {
-    fprintf (stderr, "vrpn_Xkeys_Jog_And_Shuttle: Too many buttons in config file");
-    return -1;
-  }
 
   // Open the button
   if (verbose) {
     printf ("Opening vrpn_Xkeys_Jog_And_Shuttle on host %s\n", s2);
   }
-  if ( (buttons[num_buttons] = new vrpn_Xkeys_Jog_And_Shuttle (s2, connection)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Xkeys_Jog_And_Shuttle\n");
-    return -1;
-  } else {
-    num_buttons++;
-  }
+  _devices.add(new vrpn_Xkeys_Jog_And_Shuttle (s2, connection));
 #else
   fprintf (stderr, "vrpn_server: Can't open Xkeys: HID not compiled in.\n");
 #endif
@@ -4388,22 +3323,12 @@ int vrpn_Generic_Server_Object::setup_3DConnexion_Navigator (char * & pch, char 
   }
 
   // Open the 3DConnexion_Navigator
-  // Make sure there's room for a new button
-  if (num_buttons >= VRPN_GSO_MAX_BUTTONS) {
-    fprintf (stderr, "vrpn_3DConnexion_Navigator: Too many buttons in config file");
-    return -1;
-  }
 
   // Open the button
   if (verbose) {
     printf ("Opening vrpn_3DConnexion_Navigator %s\n", s2);
   }
-  if ( (buttons[num_buttons] = new vrpn_3DConnexion_Navigator (s2, connection)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_3DConnexion_Navigator\n");
-    return -1;
-  } else {
-    num_buttons++;
-  }
+  _devices.add(new vrpn_3DConnexion_Navigator (s2, connection));
 
   return 0;  // successful completion
 }
@@ -4419,22 +3344,12 @@ int vrpn_Generic_Server_Object::setup_3DConnexion_Navigator_for_Notebooks (char 
   }
 
   // Open the 3DConnexion_Navigator_for_Notebooks
-  // Make sure there's room for a new button
-  if (num_buttons >= VRPN_GSO_MAX_BUTTONS) {
-    fprintf (stderr, "vrpn_3DConnexion_Navigator_for_Notebooks: Too many buttons in config file");
-    return -1;
-  }
 
   // Open the button
   if (verbose) {
     printf ("Opening vrpn_3DConnexion_Navigator_for_Notebooks %s\n", s2);
   }
-  if ( (buttons[num_buttons] = new vrpn_3DConnexion_Navigator_for_Notebooks (s2, connection)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_3DConnexion_Navigator_for_Notebooks\n");
-    return -1;
-  } else {
-    num_buttons++;
-  }
+  _devices.add(new vrpn_3DConnexion_Navigator_for_Notebooks (s2, connection));
 
   return 0;  // successful completion
 }
@@ -4450,22 +3365,12 @@ int vrpn_Generic_Server_Object::setup_3DConnexion_Traveler (char * & pch, char *
   }
 
   // Open the 3DConnexion_Traveler
-  // Make sure there's room for a new button
-  if (num_buttons >= VRPN_GSO_MAX_BUTTONS) {
-    fprintf (stderr, "vrpn_3DConnexion_Traveler: Too many buttons in config file");
-    return -1;
-  }
 
   // Open the button
   if (verbose) {
     printf ("Opening vrpn_3DConnexion_Traveler %s\n", s2);
   }
-  if ( (buttons[num_buttons] = new vrpn_3DConnexion_Traveler (s2, connection)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_3DConnexion_Traveler\n");
-    return -1;
-  } else {
-    num_buttons++;
-  }
+  _devices.add(new vrpn_3DConnexion_Traveler (s2, connection));
 
   return 0;  // successful completion
 }
@@ -4481,22 +3386,12 @@ int vrpn_Generic_Server_Object::setup_3DConnexion_SpaceMouse (char * & pch, char
   }
 
   // Open the 3DConnexion_Traveler
-  // Make sure there's room for a new button
-  if (num_buttons >= VRPN_GSO_MAX_BUTTONS) {
-    fprintf (stderr, "vrpn_3DConnexion_Traveler: Too many buttons in config file");
-    return -1;
-  }
 
   // Open the button
   if (verbose) {
     printf ("Opening vrpn_3DConnexion_SpaceMouse %s\n", s2);
   }
-  if ( (buttons[num_buttons] = new vrpn_3DConnexion_SpaceMouse (s2, connection)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_3DConnexion_SpaceMouse\n");
-    return -1;
-  } else {
-    num_buttons++;
-  }
+  _devices.add(new vrpn_3DConnexion_SpaceMouse (s2, connection));
 
   return 0;  // successful completion
 }
@@ -4512,22 +3407,12 @@ int vrpn_Generic_Server_Object::setup_3DConnexion_SpaceExplorer (char * & pch, c
   }
 
   // Open the 3DConnexion_Traveler
-  // Make sure there's room for a new button
-  if (num_buttons >= VRPN_GSO_MAX_BUTTONS) {
-    fprintf (stderr, "vrpn_3DConnexion_SpaceExplorer: Too many buttons in config file");
-    return -1;
-  }
 
   // Open the button
   if (verbose) {
     printf ("Opening vrpn_3DConnexion_SpaceExplorer %s\n", s2);
   }
-  if ( (buttons[num_buttons] = new vrpn_3DConnexion_SpaceExplorer (s2, connection)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_3DConnexion_SpaceExplorer\n");
-    return -1;
-  } else {
-    num_buttons++;
-  }
+  _devices.add(new vrpn_3DConnexion_SpaceExplorer (s2, connection));
 
   return 0;  // successful completion
 }
@@ -4543,22 +3428,12 @@ int vrpn_Generic_Server_Object::setup_3DConnexion_SpaceBall5000 (char * & pch, c
   }
 
   // Open the 3DConnexion_SpaceBall5000
-  // Make sure there's room for a new button
-  if (num_buttons >= VRPN_GSO_MAX_BUTTONS) {
-    fprintf (stderr, "vrpn_3DConnexion_SpaceBall5000: Too many buttons in config file");
-    return -1;
-  }
 
   // Open the button
   if (verbose) {
     printf ("Opening vrpn_3DConnexion_SpaceBall5000 %s\n", s2);
   }
-  if ( (buttons[num_buttons] = new vrpn_3DConnexion_SpaceBall5000 (s2, connection)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_3DConnexion_SpaceBall5000\n");
-    return -1;
-  } else {
-    num_buttons++;
-  }
+  _devices.add(new vrpn_3DConnexion_SpaceBall5000 (s2, connection));
 
   return 0;  // successful completion
 }
@@ -4577,23 +3452,13 @@ int vrpn_Generic_Server_Object::setup_SpacePoint (char * & pch, char * line, FIL
   }
 
   // Open the SpacePoint
-  // Make sure there's room for a new tracker
-  if (num_trackers >= VRPN_GSO_MAX_TRACKERS) {
-    fprintf (stderr, "vrpn_Tracker_SpacePoint: Too many trackers in config file");
-    return -1;
-  }
 
   // Open the tracker
   if (verbose) {
     printf ("Opening vrpn_Tracker_SpacePoint %s\n", s2);
   }
 
-  if ( (trackers[num_trackers] = new vrpn_Tracker_SpacePoint (s2, connection)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_SpacePoint\n");
-    return -1;
-  } else {
-    num_trackers++;
-  }
+  _devices.add(new vrpn_Tracker_SpacePoint (s2, connection));
 #else
   fprintf (stderr, "SpacePoint driver works only with VRPN_USE_HID defined!\n");
 #endif
@@ -4634,11 +3499,6 @@ int vrpn_Generic_Server_Object::setup_Tracker_GameTrak (char *pch, char *line, F
   }
 
   // Open the GameTrak
-  // Make sure there's room for a new tracker
-  if (num_trackers >= VRPN_GSO_MAX_TRACKERS) {
-    fprintf (stderr, "vrpn_Tracker_GameTrak: Too many trackers in config file");
-    return -1;
-  }
 
   // Open the tracker
   if (verbose) {
@@ -4646,12 +3506,7 @@ int vrpn_Generic_Server_Object::setup_Tracker_GameTrak (char *pch, char *line, F
     printf ("GameTrak axis mapping: %d %d %d %d %d %d\n", mapping[0], mapping[1], mapping[2], mapping[3], mapping[4], mapping[5]);
   }
 
-  if ( (trackers[num_trackers] = new vrpn_Tracker_GameTrak (s2, connection, s3, mapping)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Tracker_GameTrak\n");
-    return -1;
-  } else {
-    num_trackers++;
-  }
+  _devices.add(new vrpn_Tracker_GameTrak (s2, connection, s3, mapping));
 
   return 0;  // successful completion
 }
@@ -4670,11 +3525,6 @@ int vrpn_Generic_Server_Object::setup_Tracker_MotionNode (char * & pch, char * l
     return -1;
   }
 
-  // Make sure there's room for a new tracker
-  if (num_trackers >= VRPN_GSO_MAX_TRACKERS) {
-    fprintf (stderr, "Too many trackers in config file");
-    return -1;
-  }
 
 #ifdef  VRPN_USE_MOTIONNODE
   // Open the tracker
@@ -4683,14 +3533,7 @@ int vrpn_Generic_Server_Object::setup_Tracker_MotionNode (char * & pch, char * l
             name, num_sensors, address, port);
   }
 
-  trackers[num_trackers] = new vrpn_Tracker_MotionNode (name, connection, num_sensors, address, port);
-
-  if (NULL == trackers[num_trackers]) {
-    fprintf (stderr, "Failed to create new vrpn_Tracker_MotionNode\n");
-    return -1;
-  } else {
-    num_trackers++;
-  }
+  _devices.add(new vrpn_Tracker_MotionNode (name, connection, num_sensors, address, port));
 #else
   fprintf (stderr, "vrpn_Tracker_MotionNode: Not compiled in (add VRPN_USE_MOTIONNODE to vrpn_Configure.h and recompile)\n");
 #endif
@@ -4719,27 +3562,15 @@ int vrpn_Generic_Server_Object::setup_Tracker_GPS(char * & pch, char * line, FIL
     return -1;
   }
 
-  // Make sure there's room for a new tracker
-  if (num_trackers >= VRPN_GSO_MAX_TRACKERS) {
-    fprintf(stderr,"Too many trackers in config file");
-    return -1;
-  }
-
   // Open the tracker
   if (verbose) {
     printf("Opening vrpn_Tracker_GPS: %s with %u sensors, address %s, port %u\n",
          trackerName, num_sensors, address, baud);
   }
 
-  //trackers[num_trackers] = new vrpn_Tracker_GPS(name, connection, num_sensors, address, port);
-  trackers[num_trackers] = new vrpn_Tracker_GPS(trackerName,connection, address, baud, useUTM, 0);
+  //_devices.add(new vrpn_Tracker_GPS(name, connection, num_sensors, address, port));
+  _devices.add(new vrpn_Tracker_GPS(trackerName,connection, address, baud, useUTM, 0));
 
-  if (NULL == trackers[num_trackers]) {
-    fprintf(stderr, "Failed to create new vrpn_Tracker_GPS\n");
-    return -1;
-  } else {
-    num_trackers++;
-  }
   return 0;
 }
 
@@ -4756,22 +3587,11 @@ int vrpn_Generic_Server_Object::setup_DreamCheeky (char * & pch, char * line, FI
 #if defined(VRPN_USE_HID)
 
   // Open the DreamCheeky
-  // Make sure there's room for a new button
-  if (num_buttons >= VRPN_GSO_MAX_BUTTONS) {
-    fprintf (stderr, "vrpn_Dream_Cheeky_USB_roll_up_drums: Too many buttons in config file");
-    return -1;
-  }
-
   // Open the button
   if (verbose) {
     printf ("Opening vrpn_Dream_Cheeky_USB_roll_up_drums as device %s\n", s2);
   }
-  if ( (buttons[num_buttons] = new vrpn_DreamCheeky_Drum_Kit (s2, connection)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Dream_Cheeky_USB_roll_up_drums\n");
-    return -1;
-  } else {
-    num_buttons++;
-  }
+  _devices.add(new vrpn_DreamCheeky_Drum_Kit (s2, connection));
 
   return 0;  // successful completion
 
@@ -4794,26 +3614,13 @@ int vrpn_Generic_Server_Object::setup_Tracker_TrivisioColibri (char * & pch, cha
     return -1;
   }
 
-  // Make sure there's room for a new tracker
-  if (num_trackers >= VRPN_GSO_MAX_TRACKERS) {
-    fprintf (stderr, "Too many trackers in config file");
-    return -1;
-  }
-
   // Open the Trivisio Colibri if we can.
   if (verbose) {
     printf ("Opening vrpn_Tracker_TrivisioColibri: %s with %d sensors, %d Hz, and %d bufLen",
             s2, numSensors, Hz, bufLen);
   }
 
-  trackers[num_trackers] = new vrpn_Tracker_TrivisioColibri (s2, connection, numSensors, Hz, bufLen);
-
-  if (NULL == trackers[num_trackers]) {
-    fprintf (stderr, "Failed to create new vrpn_Tracker_TrivisioColibri\n");
-    return -1;
-  } else {
-    num_trackers++;
-  }
+  _devices.add(new vrpn_Tracker_TrivisioColibri (s2, connection, numSensors, Hz, bufLen));
 
   return 0;
 #else
@@ -4836,22 +3643,12 @@ int vrpn_Generic_Server_Object::setup_LUDL_USBMAC6000 (char * & pch, char * line
 #if defined(VRPN_USE_LIBUSB_1_0)
 
   // Open the LUDL_USBMAC6000
-  // Make sure there's room for a new button
-  if (num_analogs >= VRPN_GSO_MAX_ANALOG) {
-    fprintf (stderr, "vrpn_LUDL_USBMAC6000: Too many analogs in config file");
-    return -1;
-  }
 
   // Open the button
   if (verbose) {
     printf ("Opening vrpn_LUDL_USBMAC6000 as device %s\n", s2);
   }
-  if ( (analogs[num_analogs] = new vrpn_LUDL_USBMAC6000 (s2, connection, recenter != 0)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_LUDL_USBMAC6000\n");
-    return -1;
-  } else {
-    num_analogs++;
-  }
+  _devices.add(new vrpn_LUDL_USBMAC6000 (s2, connection, recenter != 0));
 
   return 0;  // successful completion
 
@@ -4862,7 +3659,7 @@ int vrpn_Generic_Server_Object::setup_LUDL_USBMAC6000 (char * & pch, char * line
 }
 
 template<class T>
-int setup_Analog_5dtUSB (const char * specialization, bool verbose, vrpn_Connection * connection, vrpn_Analog * analogs[], int & num_analogs, char * &pch, char * line, FILE * config_file)
+int setup_Analog_5dtUSB (const char * specialization, bool verbose, vrpn_Connection * connection, vrpn_MainloopContainer & _devices, char * &pch, char * line, FILE * config_file)
 {
   char s2 [LINESIZE];
   // Get the arguments
@@ -4871,21 +3668,12 @@ int setup_Analog_5dtUSB (const char * specialization, bool verbose, vrpn_Connect
     return -1;
   }
 #if defined(VRPN_USE_HID)
-  if (num_analogs >= VRPN_GSO_MAX_ANALOG) {
-    fprintf (stderr, "vrpn_Analog_5dtUSB_%s: Too many analogs in config file", specialization);
-    return -1;
-  }
 
   // Open the device
   if (verbose) {
     printf ("Opening vrpn_Analog_5dtUSB_%s as device %s\n", specialization, s2);
   }
-  if ( (analogs[num_analogs] = new T (s2, connection)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Analog_5dtUSB_%s!\n", specialization);
-    return -1;
-  } else {
-    num_analogs++;
-  }
+  _devices.add(new T (s2, connection));
   return 0;
 #else
   fprintf (stderr, "vrpn_server: Can't open vrpn_Analog_5dtUSB_%s: VRPN_USE_HID not defined in vrpn_Configure.h!\n", specialization);
@@ -4904,25 +3692,25 @@ typedef int vrpn_Analog_5dtUSB_Glove14Right;
 int vrpn_Generic_Server_Object::setup_Analog_5dtUSB_Glove5Left (char * &pch, char * line, FILE * config_file)
 {
   next();
-  return setup_Analog_5dtUSB<vrpn_Analog_5dtUSB_Glove5Left> ("Glove5Left", verbose, connection, analogs, num_analogs, pch, line, config_file);
+  return setup_Analog_5dtUSB<vrpn_Analog_5dtUSB_Glove5Left> ("Glove5Left", verbose, connection, _devices, pch, line, config_file);
 }
 
 int vrpn_Generic_Server_Object::setup_Analog_5dtUSB_Glove5Right (char * &pch, char * line, FILE * config_file)
 {
   next();
-  return setup_Analog_5dtUSB<vrpn_Analog_5dtUSB_Glove5Right> ("Glove5Right", verbose, connection, analogs, num_analogs, pch, line, config_file);
+  return setup_Analog_5dtUSB<vrpn_Analog_5dtUSB_Glove5Right> ("Glove5Right", verbose, connection, _devices, pch, line, config_file);
 }
 
 int vrpn_Generic_Server_Object::setup_Analog_5dtUSB_Glove14Left (char * &pch, char * line, FILE * config_file)
 {
   next();
-  return setup_Analog_5dtUSB<vrpn_Analog_5dtUSB_Glove14Left> ("Glove14Left", verbose, connection, analogs, num_analogs, pch, line, config_file);
+  return setup_Analog_5dtUSB<vrpn_Analog_5dtUSB_Glove14Left> ("Glove14Left", verbose, connection, _devices, pch, line, config_file);
 }
 
 int vrpn_Generic_Server_Object::setup_Analog_5dtUSB_Glove14Right (char * &pch, char * line, FILE * config_file)
 {
   next();
-  return setup_Analog_5dtUSB<vrpn_Analog_5dtUSB_Glove14Right> ("Glove14Right", verbose, connection, analogs, num_analogs, pch, line, config_file);
+  return setup_Analog_5dtUSB<vrpn_Analog_5dtUSB_Glove14Right> ("Glove14Right", verbose, connection, _devices, pch, line, config_file);
 }
 
 int vrpn_Generic_Server_Object::setup_Tracker_RazerHydra (char * &pch, char * line, FILE * config_file)
@@ -4938,18 +3726,10 @@ int vrpn_Generic_Server_Object::setup_Tracker_RazerHydra (char * &pch, char * li
 #if defined(VRPN_USE_HID)
 
   // Open the RazerHydra
-  vrpn_Tracker_RazerHydra * device;
-
-  // Open the button
   if (verbose) {
     printf ("Opening vrpn_Tracker_RazerHydra as device %s\n", s2);
   }
-  if ( (device = new vrpn_Tracker_RazerHydra (s2, connection)) == NULL) {
-    fprintf (stderr, "Can't create new vrpn_Tracker_RazerHydra\n");
-    return -1;
-  } else {
-    _devices.add (device);
-  }
+  _devices.add(new vrpn_Tracker_RazerHydra (s2, connection));
 
   return 0;  // successful completion
 
@@ -4971,25 +3751,12 @@ int vrpn_Generic_Server_Object::setup_Tracker_zSight (char * & pch, char * line,
     return -1;
   }
 
-  // Make sure there's room for a new tracker
-  if (num_trackers >= VRPN_GSO_MAX_TRACKERS) {
-    fprintf (stderr, "Too many trackers in config file");
-    return -1;
-  }
-
   // Open the zSight if we can.
   if (verbose) {
     printf ("Opening vrpn_Tracker_zSight: %s", s2);
   }
 
-  trackers[num_trackers] = new vrpn_Tracker_zSight (s2, connection);
-
-  if (NULL == trackers[num_trackers]) {
-    fprintf (stderr, "Failed to create new vrpn_Tracker_zSight\n");
-    return -1;
-  } else {
-    num_trackers++;
-  }
+  _devices.add(new vrpn_Tracker_zSight (s2, connection));
 
   return 0;
 #else
@@ -5011,11 +3778,6 @@ int vrpn_Generic_Server_Object::setup_Tracker_ViewPoint (char * & pch, char * li
     return -1;
   }
 
-  // Make sure there's room for a new tracker
-  if (num_trackers >= VRPN_GSO_MAX_TRACKERS) {
-    fprintf (stderr, "Too many trackers in config file");
-    return -1;
-  }
 
   // Open the ViewPoint EyeTracker if we can.
   if (verbose) {
@@ -5023,14 +3785,7 @@ int vrpn_Generic_Server_Object::setup_Tracker_ViewPoint (char * & pch, char * li
   }
 
   bool smooth = smoothedData == 1;
-  trackers[num_trackers] = new vrpn_Tracker_ViewPoint (s2, connection, smooth);
-
-  if (NULL == trackers[num_trackers]) {
-    fprintf (stderr, "Failed to create new vrpn_Tracker_ViewPoint\n");
-    return -1;
-  } else {
-    num_trackers++;
-  }
+  _devices.add(new vrpn_Tracker_ViewPoint (s2, connection, smooth));
 
   return 0;
 #else
@@ -5043,7 +3798,6 @@ int vrpn_Generic_Server_Object::setup_Tracker_G4(char * &pch, char * line, FILE 
 #ifdef  VRPN_USE_PDI
   const int LINESIZE = 512;
   char name [LINESIZE], filepath [LINESIZE];
-  vrpn_Tracker_G4 *mytracker;
   int numparms;
   int Hz = 10;
   char rcmd[5000];
@@ -5062,57 +3816,45 @@ int vrpn_Generic_Server_Object::setup_Tracker_G4(char * &pch, char * line, FILE 
 
 	//get the filepath to the .g4c file
 	if (fgets(line, LINESIZE, config_file) == NULL) {
-            fprintf(stderr,"Ran past end of config file in G4 description\n");
-                return -1;
-    }
+    fprintf(stderr,"Ran past end of config file in G4 description\n");
+    return -1;
+  }
 
 	filepath[0] = 0;
 	strncat(filepath, line, LINESIZE);
 
-	if(filepath[strlen(filepath)-2] == '\\' ){
+	if(filepath[strlen(filepath)-2] == '\\' ) {
 		filepath[strlen(filepath)-2] = '\0';
-	}else
+	} else {
 		filepath[strlen(filepath)-1] = '\0';
+  }
 
 	printf("%s\n",filepath);
 
-	// Make sure there's room for a new tracker
-	if (num_trackers >= 100) {
-		fprintf(stderr,"Too many trackers in config file");
-	return -1;
-	}
-
-	// If the last character in the line is a backslash, '\', then
-    // the following line is an additional command to send to the
-    // G4 at reset time. So long as we find lines with slashes
-    // at the ends, we add them to the command string to send. Note
-    // that there is a newline at the end of the line, following the
-    // backslash.
-	rcmd[0] = 0;
-    while (line[strlen(line)-2] == '\\') {
-        // Read the next line
-        if (fgets(line, LINESIZE, config_file) == NULL) {
-            fprintf(stderr,"Ran past end of config file in G4 description\n");
-                return -1;
-        }
-
-        // Copy the line into the remote command,
-        // then replace \ with \0
-        strncat(rcmd, line, LINESIZE);
-
+  // If the last character in the line is a backslash, '\', then
+  // the following line is an additional command to send to the
+  // G4 at reset time. So long as we find lines with slashes
+  // at the ends, we add them to the command string to send. Note
+  // that there is a newline at the end of the line, following the
+  // backslash.
+  rcmd[0] = 0;
+  while (line[strlen(line)-2] == '\\') {
+    // Read the next line
+    if (fgets(line, LINESIZE, config_file) == NULL) {
+      fprintf(stderr,"Ran past end of config file in G4 description\n");
+      return -1;
     }
 
-    if (strlen(rcmd) > 0) {
-            printf("Additional reset commands found\n");
-    }
+    // Copy the line into the remote command,
+    // then replace \ with \0
+    strncat(rcmd, line, LINESIZE);
+  }
 
-	if ( (trackers[num_trackers] = mytracker =
-	new vrpn_Tracker_G4(name, connection, filepath, Hz, rcmd)) == NULL) {
-		fprintf(stderr,"Can't create new vrpn_Tracker_G4\n");
-		return -1;
-	}
+  if (strlen(rcmd) > 0) {
+    printf("Additional reset commands found\n");
+  }
 
-	num_trackers = num_trackers+1;
+	_devices.add(new vrpn_Tracker_G4(name, connection, filepath, Hz, rcmd));
 
 	return 0;
 #else
@@ -5123,7 +3865,6 @@ int vrpn_Generic_Server_Object::setup_Tracker_G4(char * &pch, char * line, FILE 
 
 int vrpn_Generic_Server_Object::setup_Tracker_FastrakPDI(char * &pch, char * line, FILE * config_file) {
 #ifdef  VRPN_USE_PDI
-	const int LINESIZE = 512;
 	char name [LINESIZE];
 	vrpn_Tracker_FastrakPDI *mytracker;
 	int Hz = 10;
@@ -5131,12 +3872,6 @@ int vrpn_Generic_Server_Object::setup_Tracker_FastrakPDI(char * &pch, char * lin
 	next();
 	// Get the arguments (class(already taken), tracker_name, reports per second)
 	sscanf(pch,"%511s%d",name,&Hz);
-
-	// Make sure there's room for a new tracker
-	if (num_trackers >= VRPN_GSO_MAX_TRACKERS) {
-		fprintf(stderr,"Too many trackers in config file");
-		return -1;
-	}
 
 	// remove the '\' from the end of the name, if it has one
 	if(name[strlen(name)-1] == '\\' ){
@@ -5168,14 +3903,7 @@ int vrpn_Generic_Server_Object::setup_Tracker_FastrakPDI(char * &pch, char * lin
 	if (rcmd[0] == 0)
 		printf(" no additional commands found\r\n");
 
-	if ( (trackers[num_trackers] = mytracker =
-	new vrpn_Tracker_FastrakPDI(name, connection, Hz, rcmd))
-		== NULL) {
-		fprintf(stderr," can't create new vrpn_Tracker_FastrakPDI\r\n");
-		return -1;
-	}
-
-	num_trackers++;
+	_devices.add(new vrpn_Tracker_FastrakPDI(name, connection, Hz, rcmd));
 
 	return 0;
 #else
@@ -5186,7 +3914,6 @@ int vrpn_Generic_Server_Object::setup_Tracker_FastrakPDI(char * &pch, char * lin
 
 int vrpn_Generic_Server_Object::setup_Tracker_LibertyPDI(char * &pch, char * line, FILE * config_file) {
 #ifdef  VRPN_USE_PDI
-  const int LINESIZE = 512;
   char name [LINESIZE];
   vrpn_Tracker_LibertyPDI *mytracker;
   int Hz = 10;
@@ -5195,12 +3922,6 @@ int vrpn_Generic_Server_Object::setup_Tracker_LibertyPDI(char * &pch, char * lin
   next();
   // Get the arguments (class(already taken), tracker_name, reports per second)
   sscanf(pch,"%511s%d",name,&Hz);
-
-	 // Make sure there's room for a new tracker
-	if (num_trackers >= VRPN_GSO_MAX_TRACKERS) {
-		fprintf(stderr,"Too many trackers in config file");
-		return -1;
-	}
 
 	// remove the '\' from the end of the name, if it has one
 	if(name[strlen(name)-1] == '\\' ){
@@ -5232,14 +3953,7 @@ int vrpn_Generic_Server_Object::setup_Tracker_LibertyPDI(char * &pch, char * lin
 	if (rcmd[0] == 0)
 		printf(" no additional commands found\r\n");
 
-	if ( (trackers[num_trackers] = mytracker =
-	new vrpn_Tracker_LibertyPDI(name, connection, Hz, rcmd))
-		== NULL) {
-		fprintf(stderr," can't create new vrpn_Tracker_LibertyPDI\r\n");
-		return -1;
-	}
-
-	num_trackers++;
+	_devices.add(new vrpn_Tracker_LibertyPDI(name, connection, Hz, rcmd));
 
 	return 0;
 #else
@@ -5248,44 +3962,11 @@ int vrpn_Generic_Server_Object::setup_Tracker_LibertyPDI(char * &pch, char * lin
 #endif
 }
 
-vrpn_Generic_Server_Object::vrpn_Generic_Server_Object (vrpn_Connection *connection_to_use, const char *config_file_name, int port, bool be_verbose, bool bail_on_open_error) :
-  connection (connection_to_use),
-  d_doing_okay (true),
-  verbose (be_verbose),
-  d_bail_on_open_error (bail_on_open_error),
-  num_trackers (0),
-  num_buttons (0),
-  num_sounds (0),
-  num_analogs (0),
-  num_sgiboxes (0),
-  num_cereals (0),
-  num_magellans (0),
-  num_spaceballs (0),
-  num_iboxes (0),
-  num_dials (0),
-  num_generators (0),
-  num_tng3s (0),
-  num_DirectXJoys (0),
-  num_RumblePads (0),
-  num_XInputPads (0),
-  num_Win32Joys (0),
-  num_GlobalHapticsOrbs (0),
-  num_phantoms (0),
-  num_analogouts (0),
-  num_DTracks (0),
-  num_posers (0),
-  num_dev_inputs(0),
-  num_mouses (0)
-  , num_inertiamouses (0)
-  , num_Keyboards (0)
-  , num_loggers (0)
-  , num_imagestreams (0)
-#ifdef	VRPN_USE_WIIUSE
-  , num_wiimotes (0)
-#endif
-#ifdef	VRPN_USE_FREESPACE
-  , num_freespaces (0)
-#endif
+vrpn_Generic_Server_Object::vrpn_Generic_Server_Object (vrpn_Connection *connection_to_use, const char *config_file_name, int port, bool be_verbose, bool bail_on_open_error)
+  : connection (connection_to_use)
+  , d_doing_okay (true)
+  , verbose (be_verbose)
+  , d_bail_on_open_error(bail_on_open_error)
 
 {
   FILE    * config_file;
@@ -5441,7 +4122,7 @@ vrpn_Generic_Server_Object::vrpn_Generic_Server_Object (vrpn_Connection *connect
       } else if (isit ("vrpn_Mouse")) {
         CHECK (setup_Mouse);
       } else if (isit("vrpn_DevInput")) {
-	CHECK(setup_DevInput);
+        CHECK(setup_DevInput);
       } else if (isit ("vrpn_Tng3")) {
         CHECK (setup_Tng3);
       } else if (isit ("vrpn_TimeCode_Generator")) {
@@ -5600,162 +4281,5 @@ vrpn_Generic_Server_Object::~vrpn_Generic_Server_Object()
 void  vrpn_Generic_Server_Object::mainloop (void)
 {
   _devices.mainloop();
-  int	i;
-
-  // Let all the buttons generate reports
-  for (i = 0; i < num_buttons; i++) {
-    buttons[i]->mainloop();
-  }
-
-  // Let all the trackers generate reports
-  for (i = 0; i < num_trackers; i++) {
-    trackers[i]->mainloop();
-  }
-  // Let all the sound servers do their thing
-  for (i = 0; i < num_sounds; i++) {
-    sounds[i]->mainloop();
-  }
-
-  // Let all the analogs do their thing
-  for (i = 0; i < num_analogs; i++) {
-    analogs[i]->mainloop();
-  }
-
-  // Let all the analog outputs do their thing
-  for (i = 0; i < num_analogouts; i++) {
-    analogouts[i]->mainloop();
-  }
-
-  // Let all the dials do their thing
-  for (i = 0; i < num_dials; i++) {
-    dials[i]->mainloop();
-  }
-
-  // Let all the cereal boxes do their thing
-  for (i = 0; i < num_cereals; i++) {
-    cereals[i]->mainloop();
-  }
-
-  // Let all the Magellans do their thing
-  for (i = 0; i < num_magellans; i++) {
-    magellans[i]->mainloop();
-  }
-
-  // Let all the Spaceballs do their thing
-  for (i = 0; i < num_spaceballs; i++) {
-    spaceballs[i]->mainloop();
-  }
-
-  // Let all the Immersion boxes do their thing
-  for (i = 0; i < num_iboxes; i++) {
-    iboxes[i]->mainloop();
-  }
-
-  // Let all of the SGI button/knob boxes do their thing
-  for (i = 0; i < num_sgiboxes; i++) {
-    sgiboxes[i]->mainloop();
-  }
-#ifdef SGI_BDBOX
-  if (vrpn_special_sgibox) {
-    vrpn_special_sgibox->mainloop();
-  }
-#endif
-#ifdef VRPN_INCLUDE_TIMECODE_SERVER
-  for (i = 0; i < num_generators; i++) {
-    timecode_generators[i]->mainloop();
-  }
-#endif
-#ifdef VRPN_USE_PHANTOM_SERVER
-  // Let all the Phantoms do their thing
-  for (i = 0; i < num_phantoms; i++) {
-    phantoms[i]->mainloop();
-  }
-#endif
-  // Let all the TNG3 do their thing
-  for (i = 0; i < num_tng3s; i++) {
-    tng3s[i]->mainloop();
-  }
-
-#ifdef	VRPN_USE_DIRECTINPUT
-  // Let all the FF joysticks do their thing
-  for (i = 0; i < num_DirectXJoys; i++) {
-    DirectXJoys[i]->mainloop();
-  }
-
-  // Let all the rumblepads do their thing
-  for (i = 0; i < num_RumblePads; i++) {
-    RumblePads[i]->mainloop();
-  }
-#ifdef VRPN_USE_WINDOWS_XINPUT
-  // Let all the Xbox controller do their thing
-  for (i = 0; i < num_XInputPads; i++) {
-    XInputPads[i]->mainloop();
-  }
-#endif
-#endif
-
-#ifdef	_WIN32
-  // Let all the win32 Joysticks do their thing
-  for (i = 0; i < num_Win32Joys; i++) {
-    win32joys[i]->mainloop();
-  }
-  // Let all the win32 mouse keyboards do their thing
-  for (i = 0; i < num_Keyboards; i++) {
-    Keyboards[i]->mainloop();
-  }
-#endif
-
-#ifndef sgi
-  // Let all the DTracks do their thing
-  for (i = 0; i < num_DTracks; i++) {
-    DTracks[i]->mainloop();
-  }
-#endif
-
-  // Let all the Orbs do their thing
-  for (i = 0; i < num_GlobalHapticsOrbs; i++) {
-    ghos[i]->mainloop();
-  }
-
-  // Let all the Posers do their thing
-  for (i = 0; i < num_posers; i++) {
-    posers[i]->mainloop();
-  }
-
-  // Let all the Mouses (Mice) do their thing
-  for (i = 0; i < num_mouses; i++) {
-    mouses[i]->mainloop();
-  }
-
-#ifdef VRPN_USE_DEV_INPUT
-  // Let all the dev input devices do their thing
-  for (i=0; i< num_dev_inputs; i++) {
-    dev_inputs[i]->mainloop();
-  }
-#endif
-
-  // Let all the Loggers do their thing
-  for (i = 0; i < num_loggers; i++) {
-    loggers[i]->mainloop();
-  }
-
-  // Let all the ImageStreams do their thing
-  for (i = 0; i < num_imagestreams; i++) {
-    imagestreams[i]->mainloop();
-  }
-
-  // Let all the WiiMotes do their thing
-#ifdef	VRPN_USE_WIIUSE
-  for (i = 0; i < num_wiimotes; i++) {
-    wiimotes[i]->mainloop();
-  }
-#endif
-
-  // Let all the Freespaces do their thing
-#ifdef	VRPN_USE_FREESPACE
-  for (i = 0; i < num_freespaces; i++) {
-    freespaces[i]->mainloop();
-  }
-#endif
 }
 
