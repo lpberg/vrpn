@@ -167,6 +167,7 @@ class VRPN_API vrpn_Tracker_Serial : public vrpn_Tracker {
    /// Reset the tracker.
    virtual void reset(void) = 0;
 
+  public:
    /// Uses the get_report, send_report, and reset routines to implement a server
    virtual void mainloop();
 };
@@ -204,6 +205,7 @@ class VRPN_API vrpn_Tracker_USB : public vrpn_Tracker {
    /// Reset the tracker.
    virtual void reset(void) = 0;
 
+  public:
    /// Uses the get_report, send_report, and reset routines to implement a server
    virtual void mainloop();
 };
