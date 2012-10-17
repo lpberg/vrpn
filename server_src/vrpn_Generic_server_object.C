@@ -247,6 +247,7 @@ int vrpn_Generic_Server_Object::get_AFline (char *line, vrpn_TAF_axis *axis)
   if (sscanf (line, "%511s%511s%d%g%g%g%g", _axis_name, name,
               &channel, &offset, &thresh, &scale, &power) != 7) {
     fprintf (stderr, "AnalogFly Axis: Bad axis line\n");
+    delete[] name;
     return -1;
   }
 
@@ -2531,6 +2532,7 @@ int	vrpn_Generic_Server_Object::get_poser_axis_line (FILE * config_file, const c
   // Read in the line
   if (fgets (line, LINESIZE, config_file) == NULL) {
     perror ("Poser Analog Axis: Can't read axis");
+    delete[] name;
     return -1;
   }
 
@@ -2538,6 +2540,7 @@ int	vrpn_Generic_Server_Object::get_poser_axis_line (FILE * config_file, const c
   if (sscanf (line, "%511s%511s%d%g%g%lg%lg", _axis_name, name,
               &channel, &offset, &scale, min, max) != 7) {
     fprintf (stderr, "Poser Analog Axis: Bad axis line\n");
+    delete[] name;
     return -1;
   }
 
@@ -2545,6 +2548,7 @@ int	vrpn_Generic_Server_Object::get_poser_axis_line (FILE * config_file, const c
   if (strcmp (_axis_name, axis_name) != 0) {
     fprintf (stderr, "Poser Analog Axis: wrong axis: wanted %s, got %s)\n",
              axis_name, name);
+    delete[] name;
     return -1;
   }
 
