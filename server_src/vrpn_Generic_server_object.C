@@ -2108,7 +2108,7 @@ int vrpn_Generic_Server_Object::setup_Tracker_InterSense (char * &pch, char *lin
 
   vrpn_Tracker_InterSense	* mytracker =
     new vrpn_Tracker_InterSense (trackerName, connection, commPort, rcmd, do_is900_timing,
-                                       reset_at_start));
+                                       reset_at_start);
 
   // If the last character in the line is a front slash, '/', then
   // the following line is a command to add a Wand or Stylus to one
